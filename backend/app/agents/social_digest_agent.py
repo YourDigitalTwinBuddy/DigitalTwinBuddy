@@ -62,3 +62,4 @@ Raw Inbound Items:
         return record
 
 social_agent = SocialMediaDigestAgent()
+

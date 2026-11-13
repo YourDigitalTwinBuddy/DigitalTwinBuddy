@@ -81,3 +81,4 @@ python -m uvicorn backend.app.main:app --port 8000 --reload
 ## 🔐 Security & Human-in-the-Loop (HITL) Guardrails
 
 All external actions (sending drafted emails, deleting duplicate files, moving calendar meetings) require explicit 1-click **"Approve & Execute"** in the **Action Queue** before any side effects are applied.
+

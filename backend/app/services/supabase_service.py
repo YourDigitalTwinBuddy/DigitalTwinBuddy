@@ -97,3 +97,4 @@ class SupabaseService:
         return False
 
 supabase_service = SupabaseService()
+

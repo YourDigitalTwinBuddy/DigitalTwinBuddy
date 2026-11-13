@@ -155,3 +155,4 @@ VALUES (
     'Executive, Strategic & Empathetic',
     'Keep communications concise, professional, and action-oriented.'
 ) ON CONFLICT (user_id) DO NOTHING;
+

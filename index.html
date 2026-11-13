@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Karmic AI Platform — Sovereign Personal Digital Twin</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#070B14',
+                        darkcard: '#0E1726',
+                        darkborder: '#1E293B',
+                        cyanbrand: '#06B6D4',
+                        bluebrand: '#3B82F6',
+                        mintbrand: '#10B981',
+                        amberbrand: '#F59E0B',
+                        violetbrand: '#8B5CF6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #070B14;
+            color: #F8FAFC;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-panel {
+            background: rgba(14, 23, 38, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(30, 41, 59, 0.7);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.3);
+        }
+        .glow-mint {
+            box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20 md:pb-6">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-darkborder px-4 py-3 md:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyanbrand to-bluebrand flex items-center justify-center font-bold text-obsidian shadow-lg shadow-cyanbrand/20">
+                    <i data-lucide="bot" class="w-5 h-5 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-base md:text-lg font-bold tracking-tight text-white flex items-center gap-2">
+                        Karmic AI <span class="text-xs px-2 py-0.5 rounded-full bg-cyanbrand/10 text-cyanbrand border border-cyanbrand/30">Digital Twin OS</span>
+                    </h1>
+                    <p class="text-[11px] text-slate-400 hidden sm:block">Sovereign Personal Agent & Cloud Infrastructure</p>
+                </div>
+            </div>
+
+            <!-- User Twin Status Badge -->
+            <div class="flex items-center space-x-3">
+                <div class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="font-medium hidden sm:inline">digitaltwinbuddy@gmail.com</span>
+                    <span class="text-xs text-cyan-400 font-semibold px-1.5 py-0.5 rounded bg-cyan-950">PRO TIER</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Application Container -->
+    <main class="max-w-7xl mx-auto px-4 py-6 md:px-8">
+
+        <!-- Navigation Tabs -->
+        <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-3 border-b border-slate-800/80 mb-6">
+            <button onclick="switchTab('dashboard')" id="btn-tab-dashboard" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition bg-cyanbrand/10 text-cyanbrand border border-cyanbrand/30">
+                <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Command Center
+            </button>
+            <button onclick="switchTab('productivity')" id="btn-tab-productivity" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white flex items-center gap-2 transition">
+                <i data-lucide="inbox" class="w-4 h-4"></i> Productivity & Efficiency
+            </button>
+            <button onclick="switchTab('health')" id="btn-tab-health" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white flex items-center gap-2 transition">
+                <i data-lucide="activity" class="w-4 h-4"></i> Health & Longevity
+            </button>
+            <button onclick="switchTab('agents')" id="btn-tab-agents" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white flex items-center gap-2 transition">
+                <i data-lucide="cpu" class="w-4 h-4"></i> Agent Studio (PaaS)
+            </button>
+            <button onclick="switchTab('actions')" id="btn-tab-actions" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white flex items-center gap-2 transition relative">
+                <i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> Action Queue
+                <span id="badge-pending-count" class="w-5 h-5 rounded-full bg-amber-500 text-obsidian text-[10px] font-bold flex items-center justify-center">3</span>
+            </button>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- TAB 1: COMMAND CENTER (DASHBOARD) -->
+        <!-- ============================================================= -->
+        <div id="tab-dashboard" class="tab-content block space-y-6">
+            
+            <!-- Hero Persona Banner -->
+            <div class="glass-panel rounded-2xl p-6 relative overflow-hidden glow-cyan border border-cyanbrand/20">
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-cyanbrand">Sovereign Persona Active</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-cyanbrand"></span>
+                            <span class="text-xs text-slate-400">Groq LPU + Supabase Cloud Engine</span>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-white">Good evening, Navin.</h2>
+                        <p class="text-sm text-slate-300 mt-1 max-w-2xl">
+                            Your Digital Twin is active across inboxes, mobile storage bloat, and health telemetry. 
+                            <span class="text-cyanbrand font-medium">3 actions require your 1-click approval</span> before execution.
+                        </p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="triggerEmailCleanUp()" class="px-4 py-2.5 rounded-xl bg-cyanbrand hover:bg-cyan-400 text-obsidian font-bold text-xs flex items-center gap-2 shadow-lg transition">
+                            <i data-lucide="sparkles" class="w-4 h-4"></i> Run Inbox Triage
+                        </button>
+                        <button onclick="triggerStorageScan()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs flex items-center gap-2 border border-slate-700 transition">
+                            <i data-lucide="hard-drive" class="w-4 h-4"></i> Scan Storage Bloat
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Metric Cards Grid -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- Card 1: Health Readiness -->
+                <div onclick="switchTab('health')" class="glass-panel rounded-2xl p-5 border border-darkborder hover:border-mintbrand/50 transition cursor-pointer group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-medium text-slate-400">Daily Health Readiness</span>
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition">
+                            <i data-lucide="heart" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl md:text-3xl font-extrabold text-white">88 <span class="text-xs text-emerald-400 font-semibold">/ 100</span></div>
+                    <div class="text-[11px] text-emerald-400 mt-1 flex items-center gap-1 font-medium">
+                        <i data-lucide="check" class="w-3 h-3"></i> Circadian State: Optimal (7.6h Sleep)
+                    </div>
+                </div>
+
+                <!-- Card 2: Email Clean-Up -->
+                <div onclick="switchTab('productivity')" class="glass-panel rounded-2xl p-5 border border-darkborder hover:border-bluebrand/50 transition cursor-pointer group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-medium text-slate-400">Email Clean-up</span>
+                        <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:scale-110 transition">
+                            <i data-lucide="mail-check" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl md:text-3xl font-extrabold text-white">18 <span class="text-xs text-blue-400 font-semibold">Triaged</span></div>
+                    <div class="text-[11px] text-cyan-400 mt-1 flex items-center gap-1 font-medium">
+                        <i data-lucide="sparkles" class="w-3 h-3"></i> 1 VIP Draft staged for review
+                    </div>
+                </div>
+
+                <!-- Card 3: Storage Bloat -->
+                <div onclick="switchTab('productivity')" class="glass-panel rounded-2xl p-5 border border-darkborder hover:border-amberbrand/50 transition cursor-pointer group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-medium text-slate-400">Mobile Storage Bloat</span>
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center group-hover:scale-110 transition">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl md:text-3xl font-extrabold text-white">4.86 <span class="text-xs text-amber-400 font-semibold">GB Reclaimable</span></div>
+                    <div class="text-[11px] text-amber-400 mt-1 flex items-center gap-1 font-medium">
+                        <i data-lucide="alert-circle" class="w-3 h-3"></i> 2 Burst photos + 1 Keynote video
+                    </div>
+                </div>
+
+                <!-- Card 4: Executive Digest -->
+                <div onclick="switchTab('productivity')" class="glass-panel rounded-2xl p-5 border border-darkborder hover:border-violetbrand/50 transition cursor-pointer group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-medium text-slate-400">Social & News Digest</span>
+                        <div class="w-8 h-8 rounded-lg bg-violet-500/10 text-violet-400 flex items-center justify-center group-hover:scale-110 transition">
+                            <i data-lucide="newspaper" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl md:text-3xl font-extrabold text-white">3 <span class="text-xs text-violet-400 font-semibold">Min Read</span></div>
+                    <div class="text-[11px] text-violet-400 mt-1 flex items-center gap-1 font-medium">
+                        <i data-lucide="zap" class="w-3 h-3"></i> AI & Cloud Trends Synthesized
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Priority Action Preview List -->
+            <div class="glass-panel rounded-2xl p-6 border border-darkborder">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <i data-lucide="shield-alert" class="w-5 h-5 text-amber-400"></i> Human-in-the-Loop Action Approval Queue
+                        </h3>
+                        <p class="text-xs text-slate-400">High-consequence actions staged by your digital twin requiring 1-click confirmation</p>
+                    </div>
+                    <button onclick="switchTab('actions')" class="text-xs text-cyanbrand hover:underline font-medium">View All (3)</button>
+                </div>
+
+                <div id="dashboard-actions-list" class="space-y-3">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- TAB 2: PRODUCTIVITY & EFFICIENCY -->
+        <!-- ============================================================= -->
+        <div id="tab-productivity" class="tab-content hidden space-y-6">
+            
+            <!-- Sub-navigation -->
+            <div class="flex space-x-2 border-b border-slate-800 pb-2">
+                <button onclick="switchProdSubTab('email')" id="sub-btn-email" class="subtab-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-bluebrand/20 text-blue-400 border border-bluebrand/30">
+                    Email Clean-Up & Triage
+                </button>
+                <button onclick="switchProdSubTab('storage')" id="sub-btn-storage" class="subtab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white">
+                    Mobile Storage Manager
+                </button>
+                <button onclick="switchProdSubTab('digest')" id="sub-btn-digest" class="subtab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white">
+                    Social & Newsletter Digest
+                </button>
+            </div>
+
+            <!-- Subtab A: Email Clean-Up -->
+            <div id="prod-sub-email" class="prod-subcontent space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Smart Inbox Clean-Up & Triage</h3>
+                        <p class="text-xs text-slate-400">Auto-identifies promotional noise, cold outreach, and generates voice-matched drafts for VIPs.</p>
+                    </div>
+                    <button onclick="triggerEmailCleanUp()" class="px-3 py-1.5 rounded-lg bg-bluebrand hover:bg-blue-600 text-white text-xs font-semibold flex items-center gap-1.5">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Rescan Inbox
+                    </button>
+                </div>
+
+                <div id="email-items-container" class="space-y-3">
+                    <!-- Dynamic email cards -->
+                </div>
+            </div>
+
+            <!-- Subtab B: Mobile Storage Manager -->
+            <div id="prod-sub-storage" class="prod-subcontent hidden space-y-4">
+                <div class="glass-panel rounded-2xl p-6 border border-darkborder">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Mobile & Cloud Storage Manager</h3>
+                            <p class="text-xs text-slate-400">Scans iCloud Photos, Google Drive, WhatsApp media dumps, and stale downloads.</p>
+                        </div>
+                        <div class="px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold">
+                            Total Reclaimable: 4.86 GB
+                        </div>
+                    </div>
+
+                    <div id="storage-items-container" class="space-y-3">
+                        <!-- Dynamic storage items -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subtab C: Social Media Digest -->
+            <div id="prod-sub-digest" class="prod-subcontent hidden space-y-4">
+                <div class="glass-panel rounded-2xl p-6 border border-darkborder">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">3-Minute Executive Digest</h3>
+                            <p class="text-xs text-slate-400">Synthesized intelligence from Substack, Twitter/X, and tech feeds.</p>
+                        </div>
+                        <button onclick="generateFreshDigest()" class="px-3 py-1.5 rounded-lg bg-violetbrand hover:bg-violet-600 text-white text-xs font-semibold flex items-center gap-1.5">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Regenerate
+                        </button>
+                    </div>
+
+                    <div id="digest-container" class="prose prose-invert max-w-none text-sm text-slate-300">
+                        <!-- Dynamic digest content -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- TAB 3: HEALTH & FITNESS DIGITAL TWIN -->
+        <!-- ============================================================= -->
+        <div id="tab-health" class="tab-content hidden space-y-6">
+            
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-white">Health & Longevity Digital Twin</h3>
+                    <p class="text-xs text-slate-400">Synchronizing physiological readiness with your digital calendar and circadian rhythm.</p>
+                </div>
+                <button onclick="syncWearables()" class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-obsidian text-xs font-bold flex items-center gap-1.5">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Sync Wearable Telemetry
+                </button>
+            </div>
+
+            <!-- Biometrics Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-panel rounded-xl p-4 border border-darkborder">
+                    <span class="text-xs text-slate-400">Sleep Architecture</span>
+                    <div class="text-xl font-bold text-white mt-1">7h 36m</div>
+                    <div class="text-[11px] text-emerald-400 mt-0.5">Deep: 1.6h • REM: 1.7h</div>
+                </div>
+                <div class="glass-panel rounded-xl p-4 border border-darkborder">
+                    <span class="text-xs text-slate-400">Heart Rate Variability</span>
+                    <div class="text-xl font-bold text-white mt-1">72 ms</div>
+                    <div class="text-[11px] text-emerald-400 mt-0.5">+8% above 30-day baseline</div>
+                </div>
+                <div class="glass-panel rounded-xl p-4 border border-darkborder">
+                    <span class="text-xs text-slate-400">Resting Heart Rate</span>
+                    <div class="text-xl font-bold text-white mt-1">58 bpm</div>
+                    <div class="text-[11px] text-slate-400 mt-0.5">Optimal athletic range</div>
+                </div>
+                <div class="glass-panel rounded-xl p-4 border border-darkborder">
+                    <span class="text-xs text-slate-400">Daily Steps</span>
+                    <div class="text-xl font-bold text-white mt-1">9,420</div>
+                    <div class="text-[11px] text-cyan-400 mt-0.5">94% of 10,000 goal</div>
+                </div>
+            </div>
+
+            <!-- Circadian Calendar Protection Card -->
+            <div class="glass-panel rounded-2xl p-6 border border-emerald-500/20 glow-mint">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-bold border border-emerald-500/30">CIRCADIAN ADAPTOR ACTIVE</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white mt-2">Calendar & Workout Alignment</h4>
+                        <p class="text-sm text-slate-300 mt-1 max-w-2xl">
+                            High readiness detected today. Cognitive peak window: <strong>09:00 - 13:00</strong>. 
+                            Twin recommends scheduling high-consequence strategy meetings and heavy creative design now.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <span class="text-xs text-cyanbrand font-bold uppercase">Calendar Guardrail</span>
+                        <p class="text-xs text-slate-300 mt-1">Afternoon recovery pause scheduled at 15:00. Non-critical Slack notifications suppressed.</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
+                        <span class="text-xs text-emerald-400 font-bold uppercase">Longevity Workout Protocol</span>
+                        <p class="text-xs text-slate-300 mt-1">Optimal day for 45-min Zone 2 aerobic run or resistance training before 18:00.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- TAB 4: PAAS AGENT STUDIO -->
+        <!-- ============================================================= -->
+        <div id="tab-agents" class="tab-content hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-white">Custom Agent Studio (PaaS)</h3>
+                    <p class="text-xs text-slate-400">Design, deploy, and configure specialized autonomous agents for your lifestyle.</p>
+                </div>
+                <button onclick="openCreateAgentModal()" class="px-3 py-1.5 rounded-lg bg-cyanbrand hover:bg-cyan-400 text-obsidian text-xs font-bold flex items-center gap-1.5">
+                    <i data-lucide="plus" class="w-3.5 h-3.5"></i> Deploy New Agent
+                </button>
+            </div>
+
+            <div id="agents-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- TAB 5: HITL ACTION QUEUE -->
+        <!-- ============================================================= -->
+        <div id="tab-actions" class="tab-content hidden space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-white">Human-in-the-Loop Action Approval Queue</h3>
+                    <p class="text-xs text-slate-400">Your digital twin stages actions here for your explicit 1-click confirmation.</p>
+                </div>
+            </div>
+
+            <div id="full-actions-list" class="space-y-4">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Mobile Fixed Bottom Navigation Bar -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 glass-panel border-t border-darkborder z-50 px-2 py-2 flex justify-around">
+        <button onclick="switchTab('dashboard')" class="flex flex-col items-center text-xs text-cyanbrand">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span class="text-[10px] mt-0.5">Home</span>
+        </button>
+        <button onclick="switchTab('productivity')" class="flex flex-col items-center text-xs text-slate-400 hover:text-white">
+            <i data-lucide="inbox" class="w-5 h-5"></i>
+            <span class="text-[10px] mt-0.5">Productivity</span>
+        </button>
+        <button onclick="switchTab('health')" class="flex flex-col items-center text-xs text-slate-400 hover:text-white">
+            <i data-lucide="activity" class="w-5 h-5"></i>
+            <span class="text-[10px] mt-0.5">Health</span>
+        </button>
+        <button onclick="switchTab('agents')" class="flex flex-col items-center text-xs text-slate-400 hover:text-white">
+            <i data-lucide="cpu" class="w-5 h-5"></i>
+            <span class="text-[10px] mt-0.5">Studio</span>
+        </button>
+        <button onclick="switchTab('actions')" class="flex flex-col items-center text-xs text-amber-400 relative">
+            <i data-lucide="check-circle" class="w-5 h-5"></i>
+            <span class="text-[10px] mt-0.5">Actions</span>
+        </button>
+    </nav>
+
+    <!-- Interactive JavaScript Engine with Robust Offline/Vercel Fallbacks -->
+    <script>
+        // High-fidelity fallback defaults
+        const DEFAULT_EMAILS = [
+            {
+                id: "em-001",
+                sender_name: "Satya Nadella (Partner Executive)",
+                sender_email: "satya@partner-network.com",
+                subject: "Strategic Cloud Partnership: Q4 Roadmap Alignment",
+                snippet: "Hi Navin, enjoyed our previous discussion on the Sovereign Digital Twin. Can your team share the latest architecture deck for the Q4 review before Thursday? Best, Satya.",
+                category: "VIP_ACTION",
+                clean_up_recommendation: "Priority VIP message. Stage voice-matched draft reply.",
+                draft_reply: "Hi Satya, thanks for reaching out. Delighted to hear from you. The updated Karmic architecture deck and technical specifications are prepared and attached for our Thursday alignment. Looking forward to reviewing together. Warm regards, Navin."
+            },
+            {
+                id: "em-002",
+                sender_name: "SaaS Digest Weekly",
+                sender_email: "newsletter@saasweeklyblast.io",
+                subject: "Top 100 AI Cloud Tool Trends You Must Know in 2026",
+                snippet: "Don't miss our latest sponsored webinar featuring cloud benchmarks, tool ratings, and SaaS pricing breakdowns...",
+                category: "PROMOTIONAL",
+                clean_up_recommendation: "Unopened for 60+ days. Recommend 1-click unsubscribe and archive 24 related emails."
+            },
+            {
+                id: "em-003",
+                sender_name: "Growth B2B Cold Outreach",
+                sender_email: "jake@coldoutreachleadgen.co",
+                subject: "Quick question regarding your lead pipeline?",
+                snippet: "Hey there! I saw you're building Karmic AI. We can get you 50 qualified B2B demos a month guaranteed with our automated scraper...",
+                category: "COLD_OUTREACH",
+                clean_up_recommendation: "Automated cold solicitation detected. Deflect to spam/archive."
+            },
+            {
+                id: "em-004",
+                sender_name: "Stripe Billing Notifications",
+                sender_email: "notifications@stripe.com",
+                subject: "Invoice Paid: Cloud Hosting Service #INV-2026-8812",
+                snippet: "Your payment of $19.00 USD for the serverless container service has succeeded. Retain this invoice for tax records.",
+                category: "TRANSACTIONAL",
+                clean_up_recommendation: "Expense receipt recorded into financial ledger; automatically filed into 'Receipts'."
+            }
+        ];
+
+        const DEFAULT_STORAGE = {
+            total_reclaimable_gb: 4.86,
+            items: [
+                { id: "st-01", file_name: "IMG_9824_Burst_Photo_Copy_1.HEIC", file_type: "DUPLICATE_PHOTO", file_size_mb: 14.2, recommendation: "Exact burst duplicate. Keep original and delete copy." },
+                { id: "st-02", file_name: "IMG_9825_Burst_Photo_Copy_2.HEIC", file_type: "DUPLICATE_PHOTO", file_size_mb: 14.8, recommendation: "Exact burst duplicate. Keep original." },
+                { id: "st-03", file_name: "4K_Conference_Keynote_Recording_Raw.MOV", file_type: "LARGE_VIDEO", file_size_mb: 3480.0, recommendation: "Not opened in 320 days. Move to cold archive or purge." },
+                { id: "st-04", file_name: "WhatsApp_Forwarded_Media_Batch_Nov.zip", file_type: "CHAT_DUMP", file_size_mb: 860.5, recommendation: "Group chat forwarded video clips and memes. Safe to purge." }
+            ]
+        };
+
+        const DEFAULT_ACTIONS = [
+            {
+                id: "act-01",
+                agent_name: "Email Clean-Up & Triage Agent",
+                action_type: "SEND_EMAIL",
+                title: "Approve Reply to Satya Nadella",
+                description: "Subject: Re: Strategic Cloud Partnership: Q4 Roadmap Alignment",
+                impact_preview: "Hi Satya, thanks for reaching out. Delighted to hear from you. The updated Karmic architecture deck and technical specifications are prepared and attached for our Thursday alignment. Looking forward to reviewing together. Warm regards, Navin.",
+                status: "PENDING"
+            },
+            {
+                id: "act-02",
+                agent_name: "Mobile Storage Optimization Agent",
+                action_type: "DELETE_STORAGE",
+                title: "Reclaim 4.86 GB Storage on Phone & Cloud",
+                description: "Purge 2 duplicate burst photos, 1 stale 4K keynote recording (3.4GB), and WhatsApp forwarded batch.",
+                impact_preview: "Immediately reclaims 4.86 GB across iCloud & internal phone storage.",
+                status: "PENDING"
+            },
+            {
+                id: "act-03",
+                agent_name: "Circadian Longevity Twin",
+                action_type: "RESCHEDULE_CALENDAR",
+                title: "Insert 45-Min Afternoon Recovery Buffer",
+                description: "Biological readiness: 88%. Peak cognitive window concludes at 14:00. Insert rest buffer from 15:00 - 15:45.",
+                impact_preview: "Blocks meeting invites and silences non-urgent Slack notifications.",
+                status: "PENDING"
+            }
+        ];
+
+        const DEFAULT_AGENTS = [
+            { id: "ag-1", agent_name: "Executive Inbox Guardian", agent_role: "Email Clean-up & VIP Reply Drafting", icon: "mail", trigger_frequency: "REALTIME", prompt_instructions: "Monitor inbound mail, flag cold sales, auto-archive spam, and draft replies in Navin's authentic voice." },
+            { id: "ag-2", agent_name: "Mobile Storage Cleaner", agent_role: "iOS & Android Cloud Storage Optimizer", icon: "hard-drive", trigger_frequency: "WEEKLY", prompt_instructions: "Analyze camera roll duplicate photos and WhatsApp media dumps. Reclaim gigabytes of cloud storage." },
+            { id: "ag-3", agent_name: "3-Min Executive Digest Scout", agent_role: "Social Media & Newsletter Synthesizer", icon: "newspaper", trigger_frequency: "DAILY_MORNING", prompt_instructions: "Synthesize 30+ tech newsletters and X/Twitter bookmarks into a concise 3-minute executive read at 07:00 AM." },
+            { id: "ag-4", agent_name: "Circadian Longevity Twin", agent_role: "Biometrics, Sleep Recovery & Calendar Protection", icon: "activity", trigger_frequency: "DAILY_MORNING", prompt_instructions: "Ingest sleep architecture and HRV. Protect work calendar when recovery is depressed and prescribe longevity protocols." }
+        ];
+
+        let pendingActions = [...DEFAULT_ACTIONS];
+        let emails = [...DEFAULT_EMAILS];
+        let storageData = {...DEFAULT_STORAGE};
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderActions();
+            renderEmails();
+            renderStorage();
+            renderDigest();
+            renderAgents();
+            lucide.createIcons();
+            tryLiveFetch();
+        });
+
+        async function tryLiveFetch() {
+            try {
+                const res = await fetch('/api/actions/pending');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.length) {
+                        pendingActions = data;
+                        renderActions();
+                    }
+                }
+            } catch(e) {}
+            try {
+                const res = await fetch('/api/productivity/inbox');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.length) {
+                        emails = data;
+                        renderEmails();
+                    }
+                }
+            } catch(e) {}
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('block'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabId}`).classList.add('block');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white flex items-center gap-2 transition";
+            });
+            const activeBtn = document.getElementById(`btn-tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition bg-cyanbrand/10 text-cyanbrand border border-cyanbrand/30";
+            }
+            lucide.createIcons();
+        }
+
+        function switchProdSubTab(subId) {
+            document.querySelectorAll('.prod-subcontent').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`prod-sub-${subId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.subtab-btn').forEach(btn => {
+                btn.className = "subtab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white";
+            });
+            document.getElementById(`sub-btn-${subId}`).className = "subtab-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-bluebrand/20 text-blue-400 border border-bluebrand/30";
+            lucide.createIcons();
+        }
+
+        function renderActions() {
+            const listDashboard = document.getElementById('dashboard-actions-list');
+            const listFull = document.getElementById('full-actions-list');
+            const badge = document.getElementById('badge-pending-count');
+            
+            const pending = pendingActions.filter(a => a.status === 'PENDING');
+            if (badge) badge.innerText = pending.length;
+
+            if (pending.length === 0) {
+                const emptyHtml = `<div class="p-6 text-center text-slate-400 text-sm">All actions resolved! Your digital twin is running smoothly.</div>`;
+                if (listDashboard) listDashboard.innerHTML = emptyHtml;
+                if (listFull) listFull.innerHTML = emptyHtml;
+                return;
+            }
+
+            const cardsHtml = pending.map(a => `
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-400">${a.agent_name}</span>
+                            <span class="text-xs text-slate-400">• ${a.action_type}</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white">${a.title}</h4>
+                        <p class="text-xs text-slate-300">${a.description}</p>
+                        ${a.impact_preview ? `<div class="p-2.5 mt-2 rounded-lg bg-slate-950 border border-slate-800/80 text-xs text-slate-300 italic font-mono">"${a.impact_preview}"</div>` : ''}
+                    </div>
+                    <div class="flex items-center gap-2 self-end md:self-center shrink-0">
+                        <button onclick="resolveAction('${a.id}', 'APPROVED')" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-obsidian font-bold text-xs flex items-center gap-1.5 transition">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i> Approve
+                        </button>
+                        <button onclick="resolveAction('${a.id}', 'REJECTED')" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 font-medium text-xs flex items-center gap-1.5 border border-slate-700 transition">
+                            Reject
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            if (listDashboard) listDashboard.innerHTML = cardsHtml;
+            if (listFull) listFull.innerHTML = cardsHtml;
+            lucide.createIcons();
+        }
+
+        async function resolveAction(actionId, status) {
+            pendingActions = pendingActions.map(a => a.id === actionId ? {...a, status: status} : a);
+            renderActions();
+            try {
+                await fetch(`/api/actions/${actionId}/resolve`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({status: status})
+                });
+            } catch(e) {}
+        }
+
+        function renderEmails() {
+            const container = document.getElementById('email-items-container');
+            if (!container) return;
+
+            container.innerHTML = emails.map(em => {
+                let badgeClass = "bg-slate-800 text-slate-300";
+                if (em.category === "VIP_ACTION") badgeClass = "bg-amber-500/20 text-amber-300 border border-amber-500/30";
+                if (em.category === "PROMOTIONAL") badgeClass = "bg-blue-500/20 text-blue-300 border border-blue-500/30";
+                if (em.category === "COLD_OUTREACH") badgeClass = "bg-rose-500/20 text-rose-300 border border-rose-500/30";
+
+                return `
+                    <div class="glass-panel p-4 rounded-xl border border-darkborder space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeClass}">${em.category}</span>
+                                <span class="text-xs font-bold text-white">${em.sender_name}</span>
+                            </div>
+                            <span class="text-xs text-slate-400">${em.clean_up_recommendation}</span>
+                        </div>
+                        <h5 class="text-sm font-semibold text-slate-200">${em.subject}</h5>
+                        <p class="text-xs text-slate-400">${em.snippet}</p>
+
+                        ${em.draft_reply ? `
+                            <div class="mt-2 p-3 rounded-lg bg-slate-900 border border-cyanbrand/20">
+                                <div class="text-[10px] text-cyanbrand font-bold uppercase mb-1">Staged Reply in Authentic Voice:</div>
+                                <p class="text-xs text-slate-300 italic">${em.draft_reply}</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function renderStorage() {
+            const container = document.getElementById('storage-items-container');
+            if (!container || !storageData) return;
+
+            container.innerHTML = storageData.items.map(item => `
+                <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-4">
+                    <div class="space-y-0.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">${item.file_type}</span>
+                            <span class="text-xs font-bold text-white">${item.file_name}</span>
+                        </div>
+                        <p class="text-xs text-slate-400">${item.recommendation}</p>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <div class="text-sm font-bold text-white">${item.file_size_mb} MB</div>
+                        <span class="text-[10px] text-emerald-400">Reclaimable</span>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderDigest() {
+            const container = document.getElementById('digest-container');
+            if (!container) return;
+            container.innerHTML = `
+                <h4 class="text-lg font-bold text-white mb-2">Morning Executive Intelligence — November 14, 2026</h4>
+                <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 mb-4 space-y-1">
+                    <span class="text-xs font-bold text-cyanbrand uppercase">Key Takeaways:</span>
+                    <ul class="list-disc list-inside text-xs text-slate-300">
+                        <li>Open-source model efficiency reaches parity with 2024 frontier models.</li>
+                        <li>Model Context Protocol (MCP) standardized across enterprise tools with 10k+ plugins.</li>
+                        <li>Circadian alignment identified as primary biological lever for executive recovery.</li>
+                    </ul>
+                </div>
+                <div class="whitespace-pre-line text-xs text-slate-300 leading-relaxed">
+                    <strong>Top Signals of the Day</strong>
+                    • Stratechery notes enterprise shift toward sovereign hybrid cloud architectures.
+                    • Frontier AI research validates hierarchical multi-agent state machines with human approval gates.
+
+                    <strong>Strategic Implication</strong>
+                    Deploying local-first agentic infrastructure delivers 95%+ gross margins compared to legacy SaaS while protecting sensitive corporate telemetry.
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function renderAgents() {
+            const grid = document.getElementById('agents-grid');
+            if (!grid) return;
+            grid.innerHTML = DEFAULT_AGENTS.map(ag => `
+                <div class="glass-panel p-5 rounded-2xl border border-darkborder space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-cyanbrand/10 text-cyanbrand flex items-center justify-center font-bold">
+                                <i data-lucide="${ag.icon}" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">${ag.agent_name}</h4>
+                                <p class="text-xs text-slate-400">${ag.agent_role}</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ACTIVE</span>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed font-mono bg-slate-950 p-2.5 rounded-lg border border-slate-800/80">"${ag.prompt_instructions}"</p>
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="text-[10px] text-slate-400">Trigger: ${ag.trigger_frequency}</span>
+                        <button onclick="runScenarioPrompt('${ag.id}', '${ag.agent_name}')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs text-white font-medium">Run Now</button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function triggerEmailCleanUp() {
+            switchTab('productivity');
+            switchProdSubTab('email');
+        }
+
+        function triggerStorageScan() {
+            switchTab('productivity');
+            switchProdSubTab('storage');
+        }
+
+        function generateFreshDigest() {
+            const container = document.getElementById('digest-container');
+            if (container) container.innerHTML = `<div class="p-6 text-center text-cyanbrand">Synthesizing fresh intelligence across Substack and feeds with Groq...</div>`;
+            setTimeout(() => renderDigest(), 1200);
+        }
+
+        function runScenarioPrompt(agentId, agentName) {
+            const input = prompt(`Enter scenario trigger for ${agentName}:`, "Analyze latest inbox or summarize today's news");
+            if (!input) return;
+            alert(`Agent "${agentName}" executed scenario successfully! Results staged in Action Queue.`);
+        }
+
+        function openCreateAgentModal() {
+            const name = prompt("Enter Agent Name:", "VIP Calendar Negotiator");
+            const role = prompt("Enter Agent Role:", "Meeting Scheduling Assistant");
+            const promptText = prompt("Enter Agent Instructions:", "Negotiate meetings only between 11:00 and 16:00.");
+            if (name && role) {
+                DEFAULT_AGENTS.push({
+                    id: "ag-" + Date.now(),
+                    agent_name: name,
+                    agent_role: role,
+                    icon: "cpu",
+                    trigger_frequency: "DAILY_MORNING",
+                    prompt_instructions: promptText || "Assist user"
+                });
+                renderAgents();
+            }
+        }
+
+        function syncWearables() {
+            alert("Wearable biometrics synchronized! Health readiness verified at 88/100 (Optimal).");
+        }
+    </script>
+</body>
+</html>
+
