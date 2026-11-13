@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # -------------------------------------------------------------
+  # 1. Local LLM & SLM Inference Engine (100% Free / Self-Hosted)
+  # -------------------------------------------------------------
+  ollama:
+    image: ollama/ollama:latest
+    container_name: karmic-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    # Uncomment the deploy block below if running with NVIDIA GPU support
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+
+  # -------------------------------------------------------------
+  # 2. Unified Vector & Graph Database (PostgreSQL + pgvector + AGE)
+  # -------------------------------------------------------------
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: karmic-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: karmic_db
+      POSTGRES_USER: karmic_admin
+      POSTGRES_PASSWORD: karmic_secret_change_me
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+
+  # -------------------------------------------------------------
+  # 3. High-Speed Cache & Ephemeral State Bus
+  # -------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: karmic-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # -------------------------------------------------------------
+  # 4. Karmic Cognitive Backend (FastAPI + LangGraph + MCP)
+  # -------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: karmic-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://karmic_admin:karmic_secret_change_me@postgres:5432/karmic_db
+      - REDIS_URL=redis://redis:6379/0
+      - OLLAMA_HOST=http://ollama:11434
+      - PRIMARY_MODEL=llama3.3:70b-instruct-q4_K_M
+      - FAST_MODEL=mistral-nemo:12b
+      - EMBEDDING_MODEL=BAAI/bge-m3
+      - RERANKER_MODEL=BAAI/bge-reranker-large
+      - ENVIRONMENT=development
+    depends_on:
+      - postgres
+      - redis
+      - ollama
+    volumes:
+      - ./backend:/app
+
+  # -------------------------------------------------------------
+  # 5. Karmic Interaction Dashboard (Next.js 15 + Tailwind + PWA)
+  # -------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: karmic-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_WS_URL=ws://localhost:8000/ws
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  ollama_models:
+  postgres_data:
+  redis_data:
+

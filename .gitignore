@@ -1,0 +1,28 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local environment & secrets (Keeps GitHub from revoking tokens)
+.env.cloud
+.env
+.env.local
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# Node
+node_modules/
+.next/
+dist/
+build/
+
+# OS and Office lock files
+Thumbs.db
+Desktop.ini
+.DS_Store
+~$*
+*.tmp
