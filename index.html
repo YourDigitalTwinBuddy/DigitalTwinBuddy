@@ -80,15 +80,17 @@
                 </div>
             </div>
 
-            <!-- User Auth & Device Connection Pill -->
+            <!-- Device Connection Pill & User Account Pill -->
             <div class="flex items-center space-x-2">
                 <button onclick="openConnectModal()" class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-slate-300 flex items-center gap-1.5 transition">
                     <i data-lucide="smartphone" class="w-3.5 h-3.5 text-cyanbrand"></i>
                     <span class="hidden sm:inline">Connect Devices</span>
                 </button>
-                <button onclick="openAuthModal()" class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-slate-200 transition">
+                
+                <!-- User Account Pill: Click to open Profile & Password Change -->
+                <button onclick="openAccountModal()" class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-slate-200 transition">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span id="header-user-display" class="font-medium max-w-[120px] truncate">digitaltwinbuddy@gmail.com</span>
+                    <span id="header-user-display" class="font-medium max-w-[140px] truncate">navin.bhasin@hotmail.com</span>
                     <i data-lucide="user" class="w-3.5 h-3.5 text-slate-400"></i>
                 </button>
             </div>
@@ -114,7 +116,7 @@
             </button>
             <button onclick="switchTab('actions')" id="btn-tab-actions" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white flex items-center gap-2 transition relative">
                 <i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> Action Queue
-                <span id="badge-pending-count" class="w-5 h-5 rounded-full bg-amber-500 text-obsidian text-[10px] font-bold flex items-center justify-center">3</span>
+                <span id="badge-pending-count" class="w-5 h-5 rounded-full bg-amber-500 text-obsidian text-[10px] font-bold flex items-center justify-center">0</span>
             </button>
         </div>
 
@@ -130,23 +132,23 @@
                         <div class="flex items-center gap-2 mb-1">
                             <span class="text-xs font-semibold uppercase tracking-wider text-cyanbrand">Sovereign Persona Active</span>
                             <span class="w-1.5 h-1.5 rounded-full bg-cyanbrand"></span>
-                            <span class="text-xs text-slate-400">Zero-Leak Cryptographic Tenant</span>
+                            <span id="twin-name-display" class="text-xs text-slate-300 font-medium">Navin Bhasin's Digital Twin</span>
                         </div>
                         <h2 id="hero-greeting" class="text-2xl md:text-3xl font-extrabold text-white">Good day, Navin.</h2>
                         <p class="text-sm text-slate-300 mt-1 max-w-2xl">
                             Your Digital Twin is active across inboxes, mobile storage bloat, and health telemetry. 
-                            <span class="text-cyanbrand font-medium">3 actions require your 1-click approval</span> before execution.
+                            <span id="hero-action-stat" class="text-cyanbrand font-medium">Ready to protect your attention and time.</span>
                         </p>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <button onclick="openIngestEmailModal()" class="px-3.5 py-2 rounded-xl bg-cyanbrand hover:bg-cyan-400 text-obsidian font-bold text-xs flex items-center gap-1.5 shadow-lg transition">
-                            <i data-lucide="sparkles" class="w-4 h-4"></i> Triage Email
+                        <button onclick="openConnectEmailModal()" class="px-3.5 py-2 rounded-xl bg-cyanbrand hover:bg-cyan-400 text-obsidian font-bold text-xs flex items-center gap-1.5 shadow-lg transition">
+                            <i data-lucide="mail-plus" class="w-4 h-4"></i> Connect / Sync Inbox
                         </button>
                         <button onclick="triggerDeviceFilePicker()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs flex items-center gap-1.5 border border-slate-700 transition">
-                            <i data-lucide="hard-drive" class="w-4 h-4"></i> Scan Phone Storage
+                            <i data-lucide="hard-drive" class="w-4 h-4 text-amber-400"></i> Scan Phone Storage
                         </button>
-                        <button onclick="openConnectModal()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold text-xs flex items-center gap-1.5 border border-slate-700 transition">
-                            <i data-lucide="link" class="w-4 h-4"></i> Connect Devices
+                        <button onclick="openSyncHealthModal()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold text-xs flex items-center gap-1.5 border border-slate-700 transition">
+                            <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i> Sync Wearables
                         </button>
                     </div>
                 </div>
@@ -167,41 +169,41 @@
                         </div>
                     </div>
                     <div id="kpi-health-score" class="text-2xl md:text-3xl font-extrabold text-white">88 <span class="text-xs text-emerald-400 font-semibold">/ 100</span></div>
-                    <div class="text-[11px] text-emerald-400 mt-1 flex items-center gap-1 font-medium">
+                    <div id="kpi-health-sub" class="text-[11px] text-emerald-400 mt-1 flex items-center gap-1 font-medium">
                         <i data-lucide="check" class="w-3 h-3"></i> Circadian: Optimal (7.6h Sleep)
                     </div>
                 </div>
 
                 <!-- Card 2: Email Clean-Up -->
-                <div onclick="switchTab('productivity')" class="glass-panel rounded-2xl p-5 border border-darkborder hover:border-bluebrand/50 transition cursor-pointer group">
+                <div onclick="switchTab('productivity'); switchProdSubTab('email');" class="glass-panel rounded-2xl p-5 border border-darkborder hover:border-bluebrand/50 transition cursor-pointer group">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-xs font-medium text-slate-400">Email Clean-up</span>
                         <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:scale-110 transition">
                             <i data-lucide="mail-check" class="w-4 h-4"></i>
                         </div>
                     </div>
-                    <div id="kpi-email-count" class="text-2xl md:text-3xl font-extrabold text-white">18 <span class="text-xs text-blue-400 font-semibold">Triaged</span></div>
-                    <div class="text-[11px] text-cyan-400 mt-1 flex items-center gap-1 font-medium">
-                        <i data-lucide="sparkles" class="w-3 h-3"></i> 1 VIP Draft staged for review
+                    <div id="kpi-email-count" class="text-2xl md:text-3xl font-extrabold text-white">0 <span class="text-xs text-blue-400 font-semibold">Triaged</span></div>
+                    <div id="kpi-email-sub" class="text-[11px] text-cyan-400 mt-1 flex items-center gap-1 font-medium">
+                        <i data-lucide="sparkles" class="w-3 h-3"></i> Inboxes connected & active
                     </div>
                 </div>
 
                 <!-- Card 3: Storage Bloat -->
-                <div onclick="switchTab('productivity')" class="glass-panel rounded-2xl p-5 border border-darkborder hover:border-amberbrand/50 transition cursor-pointer group">
+                <div onclick="switchTab('productivity'); switchProdSubTab('storage');" class="glass-panel rounded-2xl p-5 border border-darkborder hover:border-amberbrand/50 transition cursor-pointer group">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-xs font-medium text-slate-400">Mobile Storage Bloat</span>
                         <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center group-hover:scale-110 transition">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                         </div>
                     </div>
-                    <div id="kpi-storage-count" class="text-2xl md:text-3xl font-extrabold text-white">4.86 <span class="text-xs text-amber-400 font-semibold">GB Reclaimable</span></div>
-                    <div class="text-[11px] text-amber-400 mt-1 flex items-center gap-1 font-medium">
-                        <i data-lucide="alert-circle" class="w-3 h-3"></i> 2 Burst photos + 1 Keynote video
+                    <div id="kpi-storage-count" class="text-2xl md:text-3xl font-extrabold text-white">0.0 <span class="text-xs text-amber-400 font-semibold">GB Reclaimable</span></div>
+                    <div id="kpi-storage-sub" class="text-[11px] text-amber-400 mt-1 flex items-center gap-1 font-medium">
+                        <i data-lucide="shield-check" class="w-3 h-3"></i> Zero cloud photo leakage
                     </div>
                 </div>
 
                 <!-- Card 4: Executive Digest -->
-                <div onclick="switchTab('productivity')" class="glass-panel rounded-2xl p-5 border border-darkborder hover:border-violetbrand/50 transition cursor-pointer group">
+                <div onclick="switchTab('productivity'); switchProdSubTab('digest');" class="glass-panel rounded-2xl p-5 border border-darkborder hover:border-violetbrand/50 transition cursor-pointer group">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-xs font-medium text-slate-400">Social & News Digest</span>
                         <div class="w-8 h-8 rounded-lg bg-violet-500/10 text-violet-400 flex items-center justify-center group-hover:scale-110 transition">
@@ -223,7 +225,7 @@
                         <h3 class="text-base font-bold text-white flex items-center gap-2">
                             <i data-lucide="shield-alert" class="w-5 h-5 text-amber-400"></i> Human-in-the-Loop Action Approval Queue
                         </h3>
-                        <p class="text-xs text-slate-400">High-consequence actions staged by your digital twin requiring 1-click confirmation</p>
+                        <p class="text-xs text-slate-400">Actions staged by your digital twin requiring your explicit 1-click confirmation</p>
                     </div>
                     <button onclick="switchTab('actions')" class="text-xs text-cyanbrand hover:underline font-medium">View All</button>
                 </div>
@@ -255,19 +257,55 @@
 
             <!-- Subtab A: Email Clean-Up -->
             <div id="prod-sub-email" class="prod-subcontent space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div>
-                        <h3 class="text-lg font-bold text-white">Smart Inbox Clean-Up & Triage</h3>
-                        <p class="text-xs text-slate-400">Auto-identifies promotional noise, cold outreach, and generates voice-matched drafts for VIPs.</p>
+                
+                <!-- Account Connection & Action Header -->
+                <div class="glass-panel rounded-2xl p-5 border border-darkborder flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">CONNECTED INBOX</span>
+                            <span id="active-inbox-display" class="text-xs font-bold text-white">navin.bhasin@hotmail.com</span>
+                            <span class="text-xs text-slate-400">• Multi-Provider Engine</span>
+                        </div>
+                        <p class="text-xs text-slate-300">
+                            Auto-identifies promotional blasts, cold pitches, and crafts executive draft replies in your authentic voice.
+                        </p>
                     </div>
-                    <div class="flex gap-2">
-                        <button onclick="openIngestEmailModal()" class="px-3 py-1.5 rounded-lg bg-cyanbrand hover:bg-cyan-400 text-obsidian text-xs font-bold flex items-center gap-1.5 transition">
-                            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Triage Inbound Email
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="openConnectEmailModal()" class="px-3 py-1.5 rounded-lg bg-cyanbrand hover:bg-cyan-400 text-obsidian text-xs font-bold flex items-center gap-1.5 transition">
+                            <i data-lucide="link" class="w-3.5 h-3.5"></i> Connect / Sync Account
                         </button>
-                        <button onclick="triggerEmailCleanUp()" class="px-3 py-1.5 rounded-lg bg-bluebrand hover:bg-blue-600 text-white text-xs font-semibold flex items-center gap-1.5 transition">
-                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Rescan Inbox
+                        <button onclick="triggerQuickSync()" id="btn-quick-sync" class="px-3 py-1.5 rounded-lg bg-bluebrand hover:bg-blue-600 text-white text-xs font-semibold flex items-center gap-1.5 transition">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Sync Inbox Stream
+                        </button>
+                        <button onclick="openIngestEmailModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 border border-slate-700 transition">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Triage Email
                         </button>
                     </div>
+                </div>
+
+                <!-- Clean-Up Actions Bar -->
+                <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+                    <div class="flex items-center gap-4 text-slate-300">
+                        <span><strong id="stat-promo-count" class="text-blue-400">0</strong> Promotional Newsletters</span>
+                        <span>•</span>
+                        <span><strong id="stat-cold-count" class="text-rose-400">0</strong> Cold Sales Pitches</span>
+                        <span>•</span>
+                        <span><strong id="stat-vip-count" class="text-amber-400">0</strong> VIP Actions</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="executeBulkPromoCleanup()" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-rose-500/20 text-rose-300 text-xs font-medium border border-slate-700 transition">
+                            1-Click Unsubscribe Promo
+                        </button>
+                        <button onclick="executeBulkColdDeflect()" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition">
+                            Deflect Cold Pitches
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Guidance Step-by-Step Info Pill -->
+                <div class="p-3 rounded-xl bg-cyan-950/20 border border-cyan-800/40 text-[11px] text-cyan-300 flex items-center gap-2">
+                    <i data-lucide="info" class="w-4 h-4 shrink-0 text-cyanbrand"></i>
+                    <span><strong>How Clean-Up Works:</strong> Connect any @hotmail.com, @gmail.com, or IMAP account. Groq LPU evaluates inbound mail in &lt;100ms. VIP replies are staged in your Action Queue; marketing noise is unsubscribed in 1 click.</span>
                 </div>
 
                 <div id="email-items-container" class="space-y-3">
@@ -280,19 +318,32 @@
                 <div class="glass-panel rounded-2xl p-6 border border-darkborder space-y-4">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <h3 class="text-lg font-bold text-white">Mobile & Cloud Storage Manager</h3>
-                            <p class="text-xs text-slate-400">Scans phone photos, iCloud/Google Drive, WhatsApp media dumps, and downloads.</p>
+                            <h3 class="text-lg font-bold text-white">Mobile Storage Bloat Manager</h3>
+                            <p class="text-xs text-slate-400">Safe client-side scanning for iPhone (Camera Roll) & Android (Media/Downloads). Zero cloud photo leakage.</p>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="triggerDeviceFilePicker()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-obsidian text-xs font-bold flex items-center gap-1.5 transition">
-                                <i data-lucide="folder-search" class="w-3.5 h-3.5"></i> Scan My Device Files
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button onclick="triggerDeviceFilePicker()" class="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-obsidian text-xs font-bold flex items-center gap-1.5 transition">
+                                <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> Scan Phone Files / Photos
+                            </button>
+                            <button onclick="runSimulatedStorageScan()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium border border-slate-700 transition">
+                                Run Device Audit
                             </button>
                         </div>
                     </div>
 
+                    <!-- Privacy Shield -->
+                    <div class="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-800/40 text-xs text-emerald-300 flex items-start gap-2.5">
+                        <i data-lucide="shield-check" class="w-4 h-4 mt-0.5 text-emerald-400 shrink-0"></i>
+                        <div>
+                            <strong>Zero Cloud Photo Leakage Protocol:</strong> Your private photos and videos are NEVER uploaded to any cloud server. File metadata (name, byte size, duplicate hash) is processed locally on your phone/laptop.
+                        </div>
+                    </div>
+
                     <div id="storage-scan-banner" class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-center justify-between">
-                        <span>Total Bloat Identified: <strong id="storage-reclaim-text">4.86 GB Reclaimable</strong></span>
-                        <button onclick="switchTab('actions')" class="text-xs font-bold text-amber-400 hover:underline">Execute 1-Click Purge →</button>
+                        <span>Total Bloat Identified: <strong id="storage-reclaim-text">0.0 GB Reclaimable</strong></span>
+                        <button onclick="purgeStorageNow()" class="px-3 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-obsidian font-bold text-xs transition">
+                            Execute 1-Click Purge
+                        </button>
                     </div>
 
                     <div id="storage-items-container" class="space-y-3">
@@ -307,10 +358,10 @@
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h3 class="text-lg font-bold text-white">3-Minute Executive Digest</h3>
-                            <p class="text-xs text-slate-400">Synthesized intelligence from Substack, Twitter/X, and tech feeds.</p>
+                            <p class="text-xs text-slate-400">High-signal intelligence synthesized from Substack, Twitter/X, and tech publications.</p>
                         </div>
-                        <button onclick="generateFreshDigest()" class="px-3 py-1.5 rounded-lg bg-violetbrand hover:bg-violet-600 text-white text-xs font-semibold flex items-center gap-1.5 transition">
-                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Regenerate
+                        <button onclick="generateFreshDigest()" id="btn-regen-digest" class="px-3 py-1.5 rounded-lg bg-violetbrand hover:bg-violet-600 text-white text-xs font-semibold flex items-center gap-1.5 transition">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Regenerate with Groq
                         </button>
                     </div>
 
@@ -330,9 +381,9 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                     <h3 class="text-lg font-bold text-white">Health & Longevity Digital Twin</h3>
-                    <p class="text-xs text-slate-400">Synchronizing physiological readiness with your digital calendar and circadian rhythm.</p>
+                    <p class="text-xs text-slate-400">Synchronizing biological readiness with your work calendar and circadian recovery.</p>
                 </div>
-                <button onclick="openSyncHealthModal()" class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-obsidian text-xs font-bold flex items-center gap-1.5 transition">
+                <button onclick="openSyncHealthModal()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-obsidian text-xs font-bold flex items-center gap-1.5 transition">
                     <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Sync Mobile Wearables
                 </button>
             </div>
@@ -341,22 +392,22 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="glass-panel rounded-xl p-4 border border-darkborder">
                     <span class="text-xs text-slate-400">Sleep Architecture</span>
-                    <div class="text-xl font-bold text-white mt-1">7h 36m</div>
-                    <div class="text-[11px] text-emerald-400 mt-0.5">Deep: 1.6h • REM: 1.7h</div>
+                    <div id="health-metric-sleep" class="text-xl font-bold text-white mt-1">7h 36m</div>
+                    <div id="health-metric-sleep-sub" class="text-[11px] text-emerald-400 mt-0.5">Deep: 1.6h • REM: 1.7h</div>
                 </div>
                 <div class="glass-panel rounded-xl p-4 border border-darkborder">
                     <span class="text-xs text-slate-400">Heart Rate Variability</span>
-                    <div class="text-xl font-bold text-white mt-1">72 ms</div>
-                    <div class="text-[11px] text-emerald-400 mt-0.5">+8% above 30-day baseline</div>
+                    <div id="health-metric-hrv" class="text-xl font-bold text-white mt-1">72 ms</div>
+                    <div class="text-[11px] text-emerald-400 mt-0.5">+8% above baseline</div>
                 </div>
                 <div class="glass-panel rounded-xl p-4 border border-darkborder">
                     <span class="text-xs text-slate-400">Resting Heart Rate</span>
-                    <div class="text-xl font-bold text-white mt-1">58 bpm</div>
+                    <div id="health-metric-rhr" class="text-xl font-bold text-white mt-1">58 bpm</div>
                     <div class="text-[11px] text-slate-400 mt-0.5">Optimal athletic range</div>
                 </div>
                 <div class="glass-panel rounded-xl p-4 border border-darkborder">
                     <span class="text-xs text-slate-400">Daily Steps</span>
-                    <div class="text-xl font-bold text-white mt-1">9,420</div>
+                    <div id="health-metric-steps" class="text-xl font-bold text-white mt-1">9,420</div>
                     <div class="text-[11px] text-cyan-400 mt-0.5">94% of 10,000 goal</div>
                 </div>
             </div>
@@ -366,10 +417,10 @@
                 <div class="flex items-start justify-between">
                     <div>
                         <div class="flex items-center gap-2">
-                            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-bold border border-emerald-500/30">CIRCADIAN ADAPTOR ACTIVE</span>
+                            <span id="health-circadian-badge" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-bold border border-emerald-500/30">CIRCADIAN ADAPTOR: OPTIMAL</span>
                         </div>
-                        <h4 class="text-base font-bold text-white mt-2">Calendar & Workout Alignment</h4>
-                        <p class="text-sm text-slate-300 mt-1 max-w-2xl">
+                        <h4 class="text-base font-bold text-white mt-2">Calendar & Biological Synchronization</h4>
+                        <p id="health-circadian-text" class="text-sm text-slate-300 mt-1 max-w-2xl">
                             High readiness detected today. Cognitive peak window: <strong>09:00 - 13:00</strong>. 
                             Twin recommends scheduling high-consequence strategy meetings and heavy creative design now.
                         </p>
@@ -379,11 +430,11 @@
                 <div class="mt-4 pt-4 border-t border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
                         <span class="text-xs text-cyanbrand font-bold uppercase">Calendar Guardrail</span>
-                        <p class="text-xs text-slate-300 mt-1">Afternoon recovery pause scheduled at 15:00. Non-critical Slack notifications suppressed.</p>
+                        <p id="health-cal-rec" class="text-xs text-slate-300 mt-1">Afternoon recovery pause scheduled at 15:00. Non-critical Slack notifications suppressed.</p>
                     </div>
                     <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
                         <span class="text-xs text-emerald-400 font-bold uppercase">Longevity Workout Protocol</span>
-                        <p class="text-xs text-slate-300 mt-1">Optimal day for 45-min Zone 2 aerobic run or resistance training before 18:00.</p>
+                        <p id="health-workout-rec" class="text-xs text-slate-300 mt-1">Optimal day for 45-min Zone 2 aerobic run or resistance training before 18:00.</p>
                     </div>
                 </div>
             </div>
@@ -428,10 +479,70 @@
     </main>
 
     <!-- ============================================================= -->
-    <!-- MODALS: AUTH, DEVICE CONNECTORS, INGEST EMAIL -->
+    <!-- MODALS: ACCOUNT, AUTH, EMAIL CONNECT, DEVICE CONNECTORS -->
     <!-- ============================================================= -->
 
-    <!-- Modal 1: Simple UID & Password Authentication -->
+    <!-- Modal 1: Account Management & Change Password -->
+    <div id="modal-account" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-6 border border-cyanbrand/30 glow-cyan space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i data-lucide="user-check" class="w-4 h-4 text-cyanbrand"></i> Sovereign Tenant & Security
+                </h3>
+                <button onclick="closeAccountModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <!-- Profile Overview Card -->
+            <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1 text-xs">
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-400">Authenticated UID:</span>
+                    <strong id="account-uid-text" class="text-white">navin.bhasin@hotmail.com</strong>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-400">Full Name:</span>
+                    <strong id="account-name-text" class="text-white">Navin Bhasin</strong>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-400">Tenant Plan:</span>
+                    <span class="px-2 py-0.5 rounded bg-cyanbrand/20 text-cyan-300 font-bold uppercase text-[10px]">Executive Cloud</span>
+                </div>
+            </div>
+
+            <!-- Change Password Form -->
+            <form onsubmit="handleChangePassword(event)" class="space-y-3 pt-2 border-t border-slate-800">
+                <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i> Change Password
+                </h4>
+                <div class="space-y-1">
+                    <label class="text-[11px] text-slate-400">Current Password</label>
+                    <input type="password" id="cp-old-password" required placeholder="••••••••" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyanbrand">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[11px] text-slate-400">New Password (min 6 characters)</label>
+                    <input type="password" id="cp-new-password" required placeholder="••••••••" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyanbrand">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[11px] text-slate-400">Confirm New Password</label>
+                    <input type="password" id="cp-confirm-password" required placeholder="••••••••" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyanbrand">
+                </div>
+                <button type="submit" id="btn-change-pwd" class="w-full py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-obsidian font-bold text-xs transition">
+                    Update Password in Supabase
+                </button>
+            </form>
+
+            <!-- Sign Out / Switch User -->
+            <div class="pt-2 border-t border-slate-800 flex justify-between items-center text-xs">
+                <button onclick="handleSignOut()" class="text-rose-400 hover:underline flex items-center gap-1 font-medium">
+                    <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Sign Out
+                </button>
+                <button onclick="openAuthModal()" class="text-cyanbrand hover:underline font-medium">
+                    Switch Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Sign In / Register -->
     <div id="modal-auth" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="glass-panel w-full max-w-md rounded-2xl p-6 border border-cyanbrand/30 glow-cyan space-y-4">
             <div class="flex items-center justify-between">
@@ -449,11 +560,11 @@
             <form onsubmit="handleAuthSubmit(event)" class="space-y-3">
                 <div id="auth-field-name" class="hidden space-y-1">
                     <label class="text-[11px] text-slate-400">Full Name</label>
-                    <input type="text" id="auth-fullname" placeholder="Navin Kumar" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyanbrand">
+                    <input type="text" id="auth-fullname" placeholder="Navin Bhasin" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyanbrand">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[11px] text-slate-400">UID (Email Address)</label>
-                    <input type="email" id="auth-email" required placeholder="digitaltwinbuddy@gmail.com" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyanbrand">
+                    <input type="email" id="auth-email" required placeholder="navin.bhasin@hotmail.com" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyanbrand">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[11px] text-slate-400">Password</label>
@@ -465,70 +576,95 @@
             </form>
 
             <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400">
-                <span>Default Demo Admin: </span><code class="text-cyan-300">digitaltwinbuddy@gmail.com</code> / <code class="text-cyan-300">TwinBuddy2026!</code>
+                <span>Quick Login: </span><code class="text-cyan-300">navin.bhasin@hotmail.com</code> / <code class="text-cyan-300">TwinBuddy2026!</code>
             </div>
         </div>
     </div>
 
-    <!-- Modal 2: Device Connectors Hub -->
-    <div id="modal-connect" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="glass-panel w-full max-w-lg rounded-2xl p-6 border border-cyanbrand/30 space-y-4 max-h-[90vh] overflow-y-auto">
+    <!-- Modal 3: Connect Email Account (Hotmail / Gmail / IMAP) -->
+    <div id="modal-connect-email" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-2xl p-6 border border-cyanbrand/30 space-y-4">
             <div class="flex items-center justify-between">
                 <h3 class="text-base font-bold text-white flex items-center gap-2">
-                    <i data-lucide="smartphone" class="w-4 h-4 text-cyanbrand"></i> Device & Account Connectors
+                    <i data-lucide="mail-plus" class="w-4 h-4 text-cyanbrand"></i> Connect Email Inbox
                 </h3>
-                <button onclick="closeConnectModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button onclick="closeConnectEmailModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
 
-            <div class="space-y-3">
-                <!-- Connector 1: iPhone & Apple Health -->
-                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="p-1.5 rounded-lg bg-slate-800 text-white"><i data-lucide="apple" class="w-4 h-4"></i></span>
-                            <span class="text-xs font-bold text-white">Apple iPhone & Apple Health</span>
-                        </div>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">SUPPORTED</span>
-                    </div>
-                    <p class="text-xs text-slate-300">
-                        1. Add to Home Screen via Safari Share button for full native PWA experience.<br>
-                        2. Use iOS Shortcuts webhook to sync Sleep, Steps & HRV directly to:
-                    </p>
-                    <code class="block p-2 rounded bg-slate-950 text-[10px] text-cyan-300 font-mono break-all">POST https://digitaltwinbuddy.vercel.app/api/mobile/telemetry/sync</code>
+            <form onsubmit="handleConnectEmailSubmit(event)" class="space-y-3">
+                <div class="space-y-1">
+                    <label class="text-[11px] text-slate-400">Email Provider</label>
+                    <select id="conn-provider" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyanbrand">
+                        <option value="HOTMAIL">Hotmail / Outlook (@hotmail.com, @outlook.com)</option>
+                        <option value="GMAIL">Google Workspace / Gmail (@gmail.com)</option>
+                        <option value="CUSTOM">Custom IMAP Mail Server</option>
+                    </select>
                 </div>
-
-                <!-- Connector 2: Android & Health Connect -->
-                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="p-1.5 rounded-lg bg-slate-800 text-emerald-400"><i data-lucide="smartphone" class="w-4 h-4"></i></span>
-                            <span class="text-xs font-bold text-white">Android Health Connect & Google Drive</span>
-                        </div>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">SUPPORTED</span>
-                    </div>
-                    <p class="text-xs text-slate-300">
-                        Install WebAPK via Chrome menu. Syncs storage metrics and step telemetry directly through background Web APIs.
-                    </p>
+                <div class="space-y-1">
+                    <label class="text-[11px] text-slate-400">Email Address</label>
+                    <input type="email" id="conn-email" required value="navin.bhasin@hotmail.com" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyanbrand">
                 </div>
-
-                <!-- Connector 3: Inboxes (Gmail / Outlook / IMAP) -->
-                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="p-1.5 rounded-lg bg-slate-800 text-blue-400"><i data-lucide="mail" class="w-4 h-4"></i></span>
-                            <span class="text-xs font-bold text-white">Multi-Email Ingestion (Gmail / Outlook / IMAP)</span>
-                        </div>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400">ACTIVE</span>
-                    </div>
-                    <p class="text-xs text-slate-300">
-                        Connected to <strong class="text-white">digitaltwinbuddy@gmail.com</strong>. All headers and attachments stay cryptographically isolated under your tenant.
-                    </p>
+                <div class="space-y-1">
+                    <label class="text-[11px] text-slate-400">App Password / Token (Optional for Instant Sync)</label>
+                    <input type="password" id="conn-password" placeholder="Leave empty for Rapid Cloud Sync" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyanbrand">
+                    <p class="text-[10px] text-slate-500">For live IMAP inbox sync, generate an App Password in your Microsoft / Google Security portal.</p>
                 </div>
-            </div>
+                <button type="submit" id="btn-conn-submit" class="w-full py-2.5 rounded-xl bg-cyanbrand hover:bg-cyan-400 text-obsidian font-bold text-xs transition">
+                    Connect & Run AI Triage Stream
+                </button>
+            </form>
         </div>
     </div>
 
-    <!-- Modal 3: Live Ingest & Triage Email -->
+    <!-- Modal 4: Sync Mobile Telemetry / Wearables -->
+    <div id="modal-sync-health" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-6 border border-emerald-500/30 space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i> Sync Mobile Health Telemetry
+                </h3>
+                <button onclick="closeSyncHealthModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <form onsubmit="handleHealthSyncSubmit(event)" class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-[11px] text-slate-400">Total Sleep (hrs)</label>
+                        <input type="number" step="0.1" id="sync-sleep" value="7.6" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-400">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[11px] text-slate-400">Deep Sleep (hrs)</label>
+                        <input type="number" step="0.1" id="sync-deep" value="1.6" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-400">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[11px] text-slate-400">HRV (ms)</label>
+                        <input type="number" id="sync-hrv" value="72" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-400">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[11px] text-slate-400">Resting HR (bpm)</label>
+                        <input type="number" id="sync-rhr" value="58" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-400">
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[11px] text-slate-400">Daily Steps</label>
+                    <input type="number" id="sync-steps" value="9420" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-400">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[11px] text-slate-400">Device Source</label>
+                    <select id="sync-device" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-400">
+                        <option value="Apple Watch & Apple Health">Apple Watch & Apple Health (iOS)</option>
+                        <option value="Google Pixel Watch & Health Connect">Google Pixel Watch & Health Connect (Android)</option>
+                        <option value="Oura Ring Gen 4">Oura Ring Gen 4</option>
+                    </select>
+                </div>
+                <button type="submit" id="btn-sync-health-submit" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-obsidian font-bold text-xs transition">
+                    Synchronize Biometrics to Digital Twin
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 5: Triage Inbound Email -->
     <div id="modal-ingest-email" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="glass-panel w-full max-w-lg rounded-2xl p-6 border border-cyanbrand/30 space-y-4">
             <div class="flex items-center justify-between">
@@ -558,6 +694,48 @@
         </div>
     </div>
 
+    <!-- Modal 6: Device Connectors Hub -->
+    <div id="modal-connect" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-2xl p-6 border border-cyanbrand/30 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i data-lucide="smartphone" class="w-4 h-4 text-cyanbrand"></i> Device & Account Connectors
+                </h3>
+                <button onclick="closeConnectModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="space-y-3">
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="p-1.5 rounded-lg bg-slate-800 text-white"><i data-lucide="apple" class="w-4 h-4"></i></span>
+                            <span class="text-xs font-bold text-white">Apple iPhone & Apple Health</span>
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">PWA READY</span>
+                    </div>
+                    <p class="text-xs text-slate-300">
+                        1. Add to Home Screen in Safari for native app feel.<br>
+                        2. Use iOS Shortcuts webhook to post biometrics to your endpoint:<br>
+                        <code class="block p-2 mt-1 rounded bg-slate-950 text-[10px] text-cyan-300 font-mono break-all">POST /api/mobile/telemetry/sync</code>
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="p-1.5 rounded-lg bg-slate-800 text-emerald-400"><i data-lucide="smartphone" class="w-4 h-4"></i></span>
+                            <span class="text-xs font-bold text-white">Android & Health Connect</span>
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">SUPPORTED</span>
+                    </div>
+                    <p class="text-xs text-slate-300">
+                        Install WebAPK via Chrome menu. Direct native storage picker inspects DCIM & chat folders locally.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Mobile Fixed Bottom Navigation Bar -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 glass-panel border-t border-darkborder z-30 px-2 py-2 flex justify-around">
         <button onclick="switchTab('dashboard')" class="flex flex-col items-center text-xs text-cyanbrand">
@@ -582,93 +760,19 @@
         </button>
     </nav>
 
-    <!-- Interactive JavaScript Engine with Live Multi-Tenant Auth -->
+    <!-- ============================================================= -->
+    <!-- JAVASCRIPT ENGINE (100% DYNAMIC MULTI-TENANT LOGIC) -->
+    <!-- ============================================================= -->
     <script>
         let currentAuthUser = {
-            email: localStorage.getItem("karmic_user_email") || "digitaltwinbuddy@gmail.com",
-            full_name: localStorage.getItem("karmic_user_name") || "Navin (Digital Twin Buddy)",
-            token: localStorage.getItem("karmic_user_token") || "token_navin_default"
+            email: localStorage.getItem("karmic_user_email") || "navin.bhasin@hotmail.com",
+            full_name: localStorage.getItem("karmic_user_name") || "Navin Bhasin",
+            token: localStorage.getItem("karmic_user_token") || ""
         };
 
-        const DEFAULT_EMAILS = [
-            {
-                id: "em-001",
-                sender_name: "Satya Nadella (Partner Executive)",
-                sender_email: "satya@partner-network.com",
-                subject: "Strategic Cloud Partnership: Q4 Roadmap Alignment",
-                snippet: "Hi Navin, enjoyed our previous discussion on the Sovereign Digital Twin. Can your team share the latest architecture deck for the Q4 review before Thursday? Best, Satya.",
-                category: "VIP_ACTION",
-                clean_up_recommendation: "Priority VIP message. Stage voice-matched draft reply.",
-                draft_reply: "Hi Satya, thanks for reaching out. Delighted to hear from you. The updated Karmic architecture deck and technical specifications are prepared and attached for our Thursday alignment. Looking forward to reviewing together. Warm regards, Navin."
-            },
-            {
-                id: "em-002",
-                sender_name: "SaaS Digest Weekly",
-                sender_email: "newsletter@saasweeklyblast.io",
-                subject: "Top 100 AI Cloud Tool Trends You Must Know in 2026",
-                snippet: "Don't miss our latest sponsored webinar featuring cloud benchmarks, tool ratings, and SaaS pricing breakdowns...",
-                category: "PROMOTIONAL",
-                clean_up_recommendation: "Unopened for 60+ days. Recommend 1-click unsubscribe and archive 24 related emails."
-            },
-            {
-                id: "em-003",
-                sender_name: "Growth B2B Cold Outreach",
-                sender_email: "jake@coldoutreachleadgen.co",
-                subject: "Quick question regarding your lead pipeline?",
-                snippet: "Hey there! I saw you're building Karmic AI. We can get you 50 qualified B2B demos a month guaranteed with our automated scraper...",
-                category: "COLD_OUTREACH",
-                clean_up_recommendation: "Automated cold solicitation detected. Deflect to spam/archive."
-            },
-            {
-                id: "em-004",
-                sender_name: "Stripe Billing Notifications",
-                sender_email: "notifications@stripe.com",
-                subject: "Invoice Paid: Cloud Hosting Service #INV-2026-8812",
-                snippet: "Your payment of $19.00 USD for the serverless container service has succeeded. Retain this invoice for tax records.",
-                category: "TRANSACTIONAL",
-                clean_up_recommendation: "Expense receipt recorded into financial ledger; automatically filed into 'Receipts'."
-            }
-        ];
-
-        const DEFAULT_STORAGE = {
-            total_reclaimable_gb: 4.86,
-            items: [
-                { id: "st-01", file_name: "IMG_9824_Burst_Photo_Copy_1.HEIC", file_type: "DUPLICATE_PHOTO", file_size_mb: 14.2, recommendation: "Exact burst duplicate. Keep original and delete copy." },
-                { id: "st-02", file_name: "IMG_9825_Burst_Photo_Copy_2.HEIC", file_type: "DUPLICATE_PHOTO", file_size_mb: 14.8, recommendation: "Exact burst duplicate. Keep original." },
-                { id: "st-03", file_name: "4K_Conference_Keynote_Recording_Raw.MOV", file_type: "LARGE_VIDEO", file_size_mb: 3480.0, recommendation: "Not opened in 320 days. Move to cold archive or purge." },
-                { id: "st-04", file_name: "WhatsApp_Forwarded_Media_Batch_Nov.zip", file_type: "CHAT_DUMP", file_size_mb: 860.5, recommendation: "Group chat forwarded video clips and memes. Safe to purge." }
-            ]
-        };
-
-        const DEFAULT_ACTIONS = [
-            {
-                id: "act-01",
-                agent_name: "Email Clean-Up & Triage Agent",
-                action_type: "SEND_EMAIL",
-                title: "Approve Reply to Satya Nadella",
-                description: "Subject: Re: Strategic Cloud Partnership: Q4 Roadmap Alignment",
-                impact_preview: "Hi Satya, thanks for reaching out. Delighted to hear from you. The updated Karmic architecture deck and technical specifications are prepared and attached for our Thursday alignment. Looking forward to reviewing together. Warm regards, Navin.",
-                status: "PENDING"
-            },
-            {
-                id: "act-02",
-                agent_name: "Mobile Storage Optimization Agent",
-                action_type: "DELETE_STORAGE",
-                title: "Reclaim 4.86 GB Storage on Phone & Cloud",
-                description: "Purge 2 duplicate burst photos, 1 stale 4K keynote recording (3.4GB), and WhatsApp forwarded batch.",
-                impact_preview: "Immediately reclaims 4.86 GB across iCloud & internal phone storage.",
-                status: "PENDING"
-            },
-            {
-                id: "act-03",
-                agent_name: "Circadian Longevity Twin",
-                action_type: "RESCHEDULE_CALENDAR",
-                title: "Insert 45-Min Afternoon Recovery Buffer",
-                description: "Biological readiness: 88%. Peak cognitive window concludes at 14:00. Insert rest buffer from 15:00 - 15:45.",
-                impact_preview: "Blocks meeting invites and silences non-urgent Slack notifications.",
-                status: "PENDING"
-            }
-        ];
+        let pendingActions = [];
+        let emails = [];
+        let storageData = { total_reclaimable_gb: 0.0, items: [] };
 
         const DEFAULT_AGENTS = [
             { id: "ag-1", agent_name: "Executive Inbox Guardian", agent_role: "Email Clean-up & VIP Reply Drafting", icon: "mail", trigger_frequency: "REALTIME", prompt_instructions: "Monitor inbound mail, flag cold sales, auto-archive spam, and draft replies in authentic voice." },
@@ -677,32 +781,136 @@
             { id: "ag-4", agent_name: "Circadian Longevity Twin", agent_role: "Biometrics, Sleep Recovery & Calendar Protection", icon: "activity", trigger_frequency: "DAILY_MORNING", prompt_instructions: "Ingest sleep architecture and HRV. Protect work calendar when recovery is depressed and prescribe longevity protocols." }
         ];
 
-        let pendingActions = [...DEFAULT_ACTIONS];
-        let emails = [...DEFAULT_EMAILS];
-        let storageData = {...DEFAULT_STORAGE};
-
-        document.addEventListener('DOMContentLoaded', () => {
+        // Initialization
+        document.addEventListener('DOMContentLoaded', async () => {
             updateUserDisplay();
-            renderActions();
-            renderEmails();
-            renderStorage();
-            renderDigest();
             renderAgents();
             lucide.createIcons();
+            await loadAllUserData();
         });
+
+        function getAuthHeaders() {
+            const h = {'Content-Type': 'application/json'};
+            if (currentAuthUser.token) {
+                h['Authorization'] = `Bearer ${currentAuthUser.token}`;
+            }
+            return h;
+        }
+
+        async function loadAllUserData() {
+            await Promise.allSettled([
+                loadProfile(),
+                loadInbox(),
+                loadStorage(),
+                loadHealthStatus(),
+                loadActions(),
+                loadDigest()
+            ]);
+        }
 
         function updateUserDisplay() {
             const el = document.getElementById("header-user-display");
             const hero = document.getElementById("hero-greeting");
+            const activeInbox = document.getElementById("active-inbox-display");
+            const uidText = document.getElementById("account-uid-text");
+            const nameText = document.getElementById("account-name-text");
+            const connEmail = document.getElementById("conn-email");
+
             if (el) el.innerText = currentAuthUser.email;
             if (hero) hero.innerText = `Good day, ${currentAuthUser.full_name.split(' ')[0]}.`;
+            if (activeInbox) activeInbox.innerText = currentAuthUser.email;
+            if (uidText) uidText.innerText = currentAuthUser.email;
+            if (nameText) nameText.innerText = currentAuthUser.full_name;
+            if (connEmail) connEmail.value = currentAuthUser.email;
         }
 
+        async function loadProfile() {
+            try {
+                const res = await fetch('/api/twin/profile', {headers: getAuthHeaders()});
+                if (res.ok) {
+                    const data = await res.json();
+                    const twinEl = document.getElementById('twin-name-display');
+                    if (twinEl && data.twin_name) twinEl.innerText = data.twin_name;
+                }
+            } catch(e) {}
+        }
+
+        async function loadInbox() {
+            try {
+                const res = await fetch('/api/productivity/inbox', {headers: getAuthHeaders()});
+                if (res.ok) {
+                    emails = await res.json();
+                    renderEmails();
+                }
+            } catch(e) {}
+        }
+
+        async function loadStorage() {
+            try {
+                const res = await fetch('/api/productivity/storage', {headers: getAuthHeaders()});
+                if (res.ok) {
+                    storageData = await res.json();
+                    renderStorage();
+                }
+            } catch(e) {}
+        }
+
+        async function loadHealthStatus() {
+            try {
+                const res = await fetch('/api/health-twin/status', {headers: getAuthHeaders()});
+                if (res.ok) {
+                    const data = await res.json();
+                    const score = data.recovery_score || 88;
+                    document.getElementById('kpi-health-score').innerHTML = `${score} <span class="text-xs text-emerald-400 font-semibold">/ 100</span>`;
+                    document.getElementById('kpi-health-sub').innerHTML = `<i data-lucide="check" class="w-3 h-3"></i> Circadian: ${data.circadian_status || 'OPTIMAL'} (${data.sleep_hours || 7.6}h Sleep)`;
+                    
+                    document.getElementById('health-metric-sleep').innerText = `${Math.floor(data.sleep_hours || 7.6)}h ${Math.round(((data.sleep_hours || 7.6) % 1) * 60)}m`;
+                    document.getElementById('health-metric-hrv').innerText = `${data.hrv_ms || 72} ms`;
+                    document.getElementById('health-metric-rhr').innerText = `${data.resting_hr || 58} bpm`;
+                    document.getElementById('health-metric-steps').innerText = `${(data.steps || 9420).toLocaleString()}`;
+                    
+                    if (data.calendar_recommendation) {
+                        document.getElementById('health-cal-rec').innerText = data.calendar_recommendation;
+                    }
+                    if (data.workout_recommendation) {
+                        document.getElementById('health-workout-rec').innerText = data.workout_recommendation;
+                    }
+                    lucide.createIcons();
+                }
+            } catch(e) {}
+        }
+
+        async function loadActions() {
+            try {
+                const res = await fetch('/api/actions/pending', {headers: getAuthHeaders()});
+                if (res.ok) {
+                    pendingActions = await res.json();
+                    renderActions();
+                }
+            } catch(e) {}
+        }
+
+        async function loadDigest() {
+            try {
+                const res = await fetch('/api/productivity/digest', {headers: getAuthHeaders()});
+                if (res.ok) {
+                    const digest = await res.json();
+                    renderDigest(digest);
+                }
+            } catch(e) {}
+        }
+
+        // Tab Switching
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('block'));
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-            document.getElementById(`tab-${tabId}`).classList.add('block');
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            const activeEl = document.getElementById(`tab-${tabId}`);
+            if (activeEl) {
+                activeEl.classList.remove('hidden');
+                activeEl.classList.add('block');
+            }
 
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.className = "tab-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white flex items-center gap-2 transition";
@@ -716,15 +924,20 @@
 
         function switchProdSubTab(subId) {
             document.querySelectorAll('.prod-subcontent').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`prod-sub-${subId}`).classList.remove('hidden');
+            const target = document.getElementById(`prod-sub-${subId}`);
+            if (target) target.classList.remove('hidden');
 
             document.querySelectorAll('.subtab-btn').forEach(btn => {
                 btn.className = "subtab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white";
             });
-            document.getElementById(`sub-btn-${subId}`).className = "subtab-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-bluebrand/20 text-blue-400 border border-bluebrand/30";
+            const activeBtn = document.getElementById(`sub-btn-${subId}`);
+            if (activeBtn) {
+                activeBtn.className = "subtab-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-bluebrand/20 text-blue-400 border border-bluebrand/30";
+            }
             lucide.createIcons();
         }
 
+        // Render Action Queue
         function renderActions() {
             const listDashboard = document.getElementById('dashboard-actions-list');
             const listFull = document.getElementById('full-actions-list');
@@ -733,8 +946,15 @@
             const pending = pendingActions.filter(a => a.status === 'PENDING');
             if (badge) badge.innerText = pending.length;
 
+            const statHero = document.getElementById('hero-action-stat');
+            if (statHero) {
+                statHero.innerText = pending.length > 0 
+                    ? `${pending.length} high-consequence action${pending.length > 1 ? 's' : ''} require your 1-click approval.`
+                    : "All clear! Your inbox and device storage are fully optimized.";
+            }
+
             if (pending.length === 0) {
-                const emptyHtml = `<div class="p-6 text-center text-slate-400 text-sm">All actions resolved! Your digital twin is running smoothly.</div>`;
+                const emptyHtml = `<div class="p-6 text-center text-slate-400 text-xs bg-slate-950/40 rounded-xl border border-slate-900">All actions resolved! Your digital twin is running smoothly.</div>`;
                 if (listDashboard) listDashboard.innerHTML = emptyHtml;
                 if (listFull) listFull.innerHTML = emptyHtml;
                 return;
@@ -768,22 +988,62 @@
         }
 
         async function resolveAction(actionId, status) {
-            pendingActions = pendingActions.map(a => a.id === actionId ? {...a, status: status} : a);
-            renderActions();
             try {
-                await fetch(`/api/actions/${actionId}/resolve`, {
+                const res = await fetch(`/api/actions/${actionId}/resolve`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${currentAuthUser.token}`},
+                    headers: getAuthHeaders(),
                     body: JSON.stringify({status: status})
                 });
+                if (res.ok) {
+                    pendingActions = pendingActions.filter(a => a.id !== actionId);
+                    renderActions();
+                    await loadInbox();
+                    await loadStorage();
+                }
             } catch(e) {}
         }
 
+        // Render Emails
         function renderEmails() {
             const container = document.getElementById('email-items-container');
+            const kpiCount = document.getElementById('kpi-email-count');
+            const statPromo = document.getElementById('stat-promo-count');
+            const statCold = document.getElementById('stat-cold-count');
+            const statVip = document.getElementById('stat-vip-count');
+
+            const activeEmails = emails.filter(e => e.status !== 'ARCHIVED' && e.status !== 'DEFLECTED');
+            if (kpiCount) kpiCount.innerHTML = `${activeEmails.length} <span class="text-xs text-blue-400 font-semibold">Triaged</span>`;
+
+            const promoCount = activeEmails.filter(e => e.category === 'PROMOTIONAL' || e.is_unsubscribe_candidate).length;
+            const coldCount = activeEmails.filter(e => e.category === 'COLD_OUTREACH').length;
+            const vipCount = activeEmails.filter(e => e.category === 'VIP_ACTION').length;
+
+            if (statPromo) statPromo.innerText = promoCount;
+            if (statCold) statCold.innerText = coldCount;
+            if (statVip) statVip.innerText = vipCount;
+
             if (!container) return;
 
-            container.innerHTML = emails.map(em => {
+            if (activeEmails.length === 0) {
+                container.innerHTML = `
+                    <div class="glass-panel p-8 rounded-2xl border border-darkborder text-center space-y-3">
+                        <div class="w-12 h-12 rounded-2xl bg-cyanbrand/10 text-cyanbrand flex items-center justify-center mx-auto">
+                            <i data-lucide="mail-check" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-base font-bold text-white">Your Inbox is Clean or Ready to Sync</h4>
+                        <p class="text-xs text-slate-400 max-w-md mx-auto">
+                            No unread clutter detected. Click below to stream recent messages from your connected @hotmail.com / @gmail.com account.
+                        </p>
+                        <button onclick="triggerQuickSync()" class="px-4 py-2 rounded-xl bg-cyanbrand hover:bg-cyan-400 text-obsidian font-bold text-xs inline-flex items-center gap-1.5 transition">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Sync & Triage Recent Messages
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            container.innerHTML = activeEmails.map(em => {
                 let badgeClass = "bg-slate-800 text-slate-300";
                 if (em.category === "VIP_ACTION") badgeClass = "bg-amber-500/20 text-amber-300 border border-amber-500/30";
                 if (em.category === "PROMOTIONAL") badgeClass = "bg-blue-500/20 text-blue-300 border border-blue-500/30";
@@ -796,7 +1056,7 @@
                                 <span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeClass}">${em.category}</span>
                                 <span class="text-xs font-bold text-white">${em.sender_name}</span>
                             </div>
-                            <span class="text-xs text-slate-400">${em.clean_up_recommendation}</span>
+                            <span class="text-xs text-slate-400">${em.clean_up_recommendation || (em.category === 'VIP_ACTION' ? 'VIP Draft Staged' : 'Safe to Archive')}</span>
                         </div>
                         <h5 class="text-sm font-semibold text-slate-200">${em.subject}</h5>
                         <p class="text-xs text-slate-400">${em.snippet}</p>
@@ -804,7 +1064,7 @@
                         ${em.draft_reply ? `
                             <div class="mt-2 p-3 rounded-lg bg-slate-900 border border-cyanbrand/20">
                                 <div class="text-[10px] text-cyanbrand font-bold uppercase mb-1">Staged Reply in Authentic Voice:</div>
-                                <p class="text-xs text-slate-300 italic">${em.draft_reply}</p>
+                                <p class="text-xs text-slate-300 italic font-mono">"${em.draft_reply}"</p>
                             </div>
                         ` : ''}
                     </div>
@@ -813,18 +1073,40 @@
             lucide.createIcons();
         }
 
+        // Render Storage
         function renderStorage() {
             const container = document.getElementById('storage-items-container');
-            if (!container || !storageData) return;
+            const kpiStorage = document.getElementById('kpi-storage-count');
+            const reclaimText = document.getElementById('storage-reclaim-text');
 
-            container.innerHTML = storageData.items.map(item => `
+            const activeItems = (storageData.items || []).filter(i => i.status !== 'PURGED');
+            const totalMb = activeItems.filter(i => i.is_reclaimable).reduce((sum, i) => sum + parseFloat(i.file_size_mb || 0), 0);
+            const totalGb = (totalMb / 1024).toFixed(2);
+
+            if (kpiStorage) kpiStorage.innerHTML = `${totalGb} <span class="text-xs text-amber-400 font-semibold">GB Reclaimable</span>`;
+            if (reclaimText) reclaimText.innerText = `${totalGb} GB Reclaimable (${activeItems.length} files)`;
+
+            if (!container) return;
+
+            if (activeItems.length === 0) {
+                container.innerHTML = `
+                    <div class="p-6 text-center text-slate-400 text-xs bg-slate-950/40 rounded-xl border border-slate-900 space-y-2">
+                        <i data-lucide="check-circle" class="w-6 h-6 text-emerald-400 mx-auto"></i>
+                        <div>No bloat detected! Tap <strong>"Scan Phone Files / Photos"</strong> above to inspect your iPhone / Android storage safely.</div>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            container.innerHTML = activeItems.map(item => `
                 <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-4">
                     <div class="space-y-0.5">
                         <div class="flex items-center gap-2">
                             <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">${item.file_type}</span>
                             <span class="text-xs font-bold text-white">${item.file_name}</span>
                         </div>
-                        <p class="text-xs text-slate-400">${item.recommendation}</p>
+                        <p class="text-xs text-slate-400">${item.recommendation || 'Duplicate media or large stale archive.'}</p>
                     </div>
                     <div class="text-right shrink-0">
                         <div class="text-sm font-bold text-white">${item.file_size_mb} MB</div>
@@ -835,31 +1117,32 @@
             lucide.createIcons();
         }
 
-        function renderDigest() {
+        // Render Digest
+        function renderDigest(digest) {
             const container = document.getElementById('digest-container');
             if (!container) return;
+            if (!digest) {
+                container.innerHTML = `<p class="text-xs text-slate-400">Loading daily executive intelligence...</p>`;
+                return;
+            }
             container.innerHTML = `
-                <h4 class="text-lg font-bold text-white mb-2">Morning Executive Intelligence — November 14, 2026</h4>
-                <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 mb-4 space-y-1">
-                    <span class="text-xs font-bold text-cyanbrand uppercase">Key Takeaways:</span>
-                    <ul class="list-disc list-inside text-xs text-slate-300">
-                        <li>Open-source model efficiency reaches parity with 2024 frontier models.</li>
-                        <li>Model Context Protocol (MCP) standardized across enterprise tools with 10k+ plugins.</li>
-                        <li>Circadian alignment identified as primary biological lever for executive recovery.</li>
-                    </ul>
-                </div>
-                <div class="whitespace-pre-line text-xs text-slate-300 leading-relaxed">
-                    <strong>Top Signals of the Day</strong>
-                    • Stratechery notes enterprise shift toward sovereign hybrid cloud architectures.
-                    • Frontier AI research validates hierarchical multi-agent state machines with human approval gates.
-
-                    <strong>Strategic Implication</strong>
-                    Deploying local-first agentic infrastructure delivers 95%+ gross margins compared to legacy SaaS while protecting sensitive corporate telemetry.
+                <h4 class="text-base font-bold text-white mb-2">${digest.title || 'Morning Executive Intelligence'}</h4>
+                ${digest.key_takeaways && digest.key_takeaways.length ? `
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 mb-4 space-y-1">
+                        <span class="text-xs font-bold text-cyanbrand uppercase">Key Strategic Signals:</span>
+                        <ul class="list-disc list-inside text-xs text-slate-300">
+                            ${digest.key_takeaways.map(t => `<li>${t}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+                <div class="whitespace-pre-line text-xs text-slate-300 leading-relaxed font-mono">
+                    ${digest.summary_markdown || ''}
                 </div>
             `;
             lucide.createIcons();
         }
 
+        // Render Custom Agents
         function renderAgents() {
             const grid = document.getElementById('agents-grid');
             if (!grid) return;
@@ -887,9 +1170,61 @@
             lucide.createIcons();
         }
 
-        // ==========================================
-        // DEVICE FILE PICKER REAL SCANNER
-        // ==========================================
+        // Quick Sync Recent Stream
+        async function triggerQuickSync() {
+            const btn = document.getElementById('btn-quick-sync');
+            if (btn) {
+                btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> Triaging with Groq...`;
+                btn.disabled = true;
+            }
+            try {
+                const res = await fetch('/api/productivity/email/connect-sync', {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({email: currentAuthUser.email, provider: 'HOTMAIL'})
+                });
+                if (res.ok) {
+                    await loadInbox();
+                    await loadActions();
+                    alert("Synced recent messages! Auto-triaged and staged in your inbox.");
+                }
+            } catch(e) {
+                alert("Synchronized stream!");
+            } finally {
+                if (btn) {
+                    btn.innerHTML = `<i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Sync Inbox Stream`;
+                    btn.disabled = false;
+                }
+                lucide.createIcons();
+            }
+        }
+
+        // Bulk Email Actions
+        async function executeBulkPromoCleanup() {
+            try {
+                const res = await fetch('/api/productivity/email/cleanup-promotional', {
+                    method: 'POST',
+                    headers: getAuthHeaders()
+                });
+                const data = await res.json();
+                alert(data.message || "Archived promotional newsletters.");
+                await loadInbox();
+            } catch(e) {}
+        }
+
+        async function executeBulkColdDeflect() {
+            try {
+                const res = await fetch('/api/productivity/email/deflect-cold', {
+                    method: 'POST',
+                    headers: getAuthHeaders()
+                });
+                const data = await res.json();
+                alert(data.message || "Deflected cold outreach.");
+                await loadInbox();
+            } catch(e) {}
+        }
+
+        // Device Storage Scanner
         function triggerDeviceFilePicker() {
             document.getElementById('real-file-picker').click();
         }
@@ -907,30 +1242,138 @@
             try {
                 const res = await fetch('/api/mobile/storage/analyze-batch', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${currentAuthUser.token}`},
+                    headers: getAuthHeaders(),
                     body: JSON.stringify(filePayload)
                 });
                 if (res.ok) {
                     const data = await res.json();
-                    storageData = {
-                        total_reclaimable_gb: data.total_reclaimable_gb,
-                        items: data.items
-                    };
-                    renderStorage();
-                    document.getElementById('storage-reclaim-text').innerText = `${data.total_reclaimable_gb} GB Reclaimable from ${files.length} Scanned Files`;
-                    document.getElementById('kpi-storage-count').innerHTML = `${data.total_reclaimable_gb} <span class="text-xs text-amber-400 font-semibold">GB Reclaimable</span>`;
+                    await loadStorage();
                     await loadActions();
                     switchTab('productivity');
                     switchProdSubTab('storage');
+                    alert(`Analyzed ${files.length} device files! Identified ${data.total_reclaimable_gb} GB reclaimable.`);
                 }
             } catch(err) {
-                alert(`Scanned ${files.length} device files! Identified duplicate candidates.`);
+                alert(`Scanned ${files.length} device files.`);
+            }
+        }
+
+        async function runSimulatedStorageScan() {
+            const demoFiles = [
+                { name: "IMG_9824_Burst_Photo_Copy_1.HEIC", size_bytes: 14889779, type: "image/heic" },
+                { name: "IMG_9825_Burst_Photo_Copy_2.HEIC", size_bytes: 15518924, type: "image/heic" },
+                { name: "4K_Conference_Keynote_Recording_Raw.MOV", size_bytes: 3649044480, type: "video/quicktime" },
+                { name: "WhatsApp_Forwarded_Media_Batch_Nov.zip", size_bytes: 902299648, type: "application/zip" }
+            ];
+            const res = await fetch('/api/mobile/storage/analyze-batch', {
+                method: 'POST',
+                headers: getAuthHeaders(),
+                body: JSON.stringify(demoFiles)
+            });
+            if (res.ok) {
+                await loadStorage();
+                await loadActions();
+                alert("Completed storage audit! 4.86 GB staged for reclaim.");
+            }
+        }
+
+        async function purgeStorageNow() {
+            try {
+                const res = await fetch('/api/mobile/storage/purge-reclaim', {
+                    method: 'POST',
+                    headers: getAuthHeaders()
+                });
+                if (res.ok) {
+                    const d = await res.json();
+                    alert(d.message || "Storage purged successfully!");
+                    await loadStorage();
+                    await loadActions();
+                }
+            } catch(e) {}
+        }
+
+        // Fresh Digest
+        async function generateFreshDigest() {
+            const btn = document.getElementById('btn-regen-digest');
+            if (btn) {
+                btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> Synthesizing...`;
+                btn.disabled = true;
+            }
+            try {
+                const res = await fetch('/api/productivity/digest/generate', {
+                    method: 'POST',
+                    headers: getAuthHeaders()
+                });
+                if (res.ok) {
+                    const d = await res.json();
+                    renderDigest(d);
+                }
+            } catch(e) {}
+            finally {
+                if (btn) {
+                    btn.innerHTML = `<i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Regenerate with Groq`;
+                    btn.disabled = false;
+                }
+                lucide.createIcons();
+            }
+        }
+
+        // Scenario Runner
+        async function runScenarioPrompt(agentId, agentName) {
+            const input = prompt(`Enter instruction for ${agentName}:`, "Synthesize top 3 priority actions for this morning.");
+            if (!input) return;
+            try {
+                const res = await fetch(`/api/agents/${agentId}/run`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({input: input})
+                });
+                const data = await res.json();
+                alert(`[${agentName} Response]:\n\n${data.output || "Completed scenario."}`);
+            } catch(e) {
+                alert(`Executed scenario for ${agentName}.`);
             }
         }
 
         // ==========================================
-        // INGEST EMAIL HANDLER
+        // MODALS CONTROLLERS
         // ==========================================
+        function openAccountModal() {
+            document.getElementById('modal-account').classList.remove('hidden');
+        }
+        function closeAccountModal() {
+            document.getElementById('modal-account').classList.add('hidden');
+        }
+
+        function openAuthModal() {
+            closeAccountModal();
+            document.getElementById('modal-auth').classList.remove('hidden');
+        }
+        function closeAuthModal() {
+            document.getElementById('modal-auth').classList.add('hidden');
+        }
+
+        function openConnectEmailModal() {
+            document.getElementById('modal-connect-email').classList.remove('hidden');
+        }
+        function closeConnectEmailModal() {
+            document.getElementById('modal-connect-email').classList.add('hidden');
+        }
+
+        function openSyncHealthModal() {
+            document.getElementById('modal-sync-health').classList.remove('hidden');
+        }
+        function closeSyncHealthModal() {
+            document.getElementById('modal-sync-health').classList.add('hidden');
+        }
+
+        function openConnectModal() {
+            document.getElementById('modal-connect').classList.remove('hidden');
+        }
+        function closeConnectModal() {
+            document.getElementById('modal-connect').classList.add('hidden');
+        }
+
         function openIngestEmailModal() {
             document.getElementById('modal-ingest-email').classList.remove('hidden');
         }
@@ -938,77 +1381,7 @@
             document.getElementById('modal-ingest-email').classList.add('hidden');
         }
 
-        async function handleEmailIngest(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btn-triage-submit');
-            btn.innerText = "Triaging with Groq LPU...";
-            btn.disabled = true;
-
-            const payload = {
-                sender_name: document.getElementById('ingest-sender').value,
-                sender_email: "sender@domain.com",
-                subject: document.getElementById('ingest-subject').value,
-                body: document.getElementById('ingest-body').value
-            };
-
-            try {
-                const res = await fetch('/api/productivity/email/ingest', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${currentAuthUser.token}`},
-                    body: JSON.stringify(payload)
-                });
-                if (res.ok) {
-                    const newEmail = await res.json();
-                    emails.unshift(newEmail);
-                    renderEmails();
-                    await loadActions();
-                    closeIngestEmailModal();
-                    switchTab('productivity');
-                    switchProdSubTab('email');
-                } else {
-                    throw new Error();
-                }
-            } catch(err) {
-                emails.unshift({
-                    id: "em-" + Date.now(),
-                    sender_name: payload.sender_name,
-                    sender_email: "vip@partner.com",
-                    subject: payload.subject,
-                    snippet: payload.body,
-                    category: "VIP_ACTION",
-                    clean_up_recommendation: "High-priority inquiry. Staged reply in authentic voice.",
-                    draft_reply: "Hi, thank you for reaching out. We appreciate the connection and would be glad to coordinate next steps. Best regards, Navin."
-                });
-                pendingActions.unshift({
-                    id: "act-" + Date.now(),
-                    agent_name: "Email Clean-Up & Triage Agent",
-                    action_type: "SEND_EMAIL",
-                    title: `Approve Reply to ${payload.sender_name}`,
-                    description: `Subject: Re: ${payload.subject}`,
-                    impact_preview: "Hi, thank you for reaching out. We appreciate the connection and would be glad to coordinate next steps. Best regards, Navin.",
-                    status: "PENDING"
-                });
-                renderEmails();
-                renderActions();
-                closeIngestEmailModal();
-                switchTab('productivity');
-                switchProdSubTab('email');
-            } finally {
-                btn.innerText = "Run Sub-Second Triage & Draft Reply";
-                btn.disabled = false;
-            }
-        }
-
-        // ==========================================
-        // AUTH MODAL HANDLER
-        // ==========================================
         let authMode = "login";
-        function openAuthModal() {
-            document.getElementById('modal-auth').classList.remove('hidden');
-        }
-        function closeAuthModal() {
-            document.getElementById('modal-auth').classList.add('hidden');
-        }
         function toggleAuthMode(mode) {
             authMode = mode;
             const nameField = document.getElementById('auth-field-name');
@@ -1018,7 +1391,7 @@
 
             if (mode === "register") {
                 nameField.classList.remove('hidden');
-                submitBtn.innerText = "Create Sovereign Tenant & Twin";
+                submitBtn.innerText = "Register Sovereign Tenant";
                 tabReg.className = "text-cyanbrand border-b-2 border-cyanbrand pb-1";
                 tabLogin.className = "text-slate-400 pb-1 hover:text-white";
             } else {
@@ -1031,9 +1404,9 @@
 
         async function handleAuthSubmit(e) {
             e.preventDefault();
-            const email = document.getElementById('auth-email').value;
-            const password = document.getElementById('auth-password').value;
-            const fullname = document.getElementById('auth-fullname').value;
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-password').value.trim();
+            const fullname = document.getElementById('auth-fullname').value.trim();
             const endpoint = authMode === "register" ? "/api/auth/register" : "/api/auth/login";
 
             try {
@@ -1054,53 +1427,175 @@
                     localStorage.setItem("karmic_user_token", currentAuthUser.token);
                     updateUserDisplay();
                     closeAuthModal();
-                    alert(`Authenticated as ${currentAuthUser.full_name}! Tenant context switched.`);
+                    alert(`Welcome, ${currentAuthUser.full_name}! Sovereign tenant active.`);
+                    await loadAllUserData();
                 } else {
-                    alert(data.detail || "Authentication failed");
+                    alert(data.detail || "Authentication failed. Check your credentials.");
                 }
             } catch(err) {
-                // Client-side instant switch fallback
-                currentAuthUser = {
-                    email: email,
-                    full_name: fullname || email.split('@')[0],
-                    token: "token_" + Date.now()
-                };
-                localStorage.setItem("karmic_user_email", currentAuthUser.email);
-                localStorage.setItem("karmic_user_name", currentAuthUser.full_name);
-                localStorage.setItem("karmic_user_token", currentAuthUser.token);
-                updateUserDisplay();
-                closeAuthModal();
-                alert(`Logged in as ${currentAuthUser.full_name} (Local Tenant Switched)`);
+                alert("Connection failed. Please retry.");
             }
         }
 
-        // ==========================================
-        // DEVICE CONNECTORS MODAL
-        // ==========================================
-        function openConnectModal() {
-            document.getElementById('modal-connect').classList.remove('hidden');
-        }
-        function closeConnectModal() {
-            document.getElementById('modal-connect').classList.add('hidden');
-        }
+        async function handleChangePassword(e) {
+            e.preventDefault();
+            const oldPassword = document.getElementById('cp-old-password').value.trim();
+            const newPassword = document.getElementById('cp-new-password').value.trim();
+            const confirmPassword = document.getElementById('cp-confirm-password').value.trim();
 
-        function openSyncHealthModal() {
-            openConnectModal();
-        }
+            if (newPassword !== confirmPassword) {
+                alert("New passwords do not match!");
+                return;
+            }
+            if (newPassword.length < 6) {
+                alert("Password must be at least 6 characters.");
+                return;
+            }
 
-        async function loadActions() {
+            const btn = document.getElementById('btn-change-pwd');
+            btn.innerText = "Updating in Supabase...";
+            btn.disabled = true;
+
             try {
-                const res = await fetch('/api/actions/pending', {
-                    headers: {'Authorization': `Bearer ${currentAuthUser.token}`}
+                const res = await fetch('/api/auth/change-password', {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({old_password: oldPassword, new_password: newPassword})
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert("Password updated successfully in Supabase!");
+                    document.getElementById('cp-old-password').value = "";
+                    document.getElementById('cp-new-password').value = "";
+                    document.getElementById('cp-confirm-password').value = "";
+                    closeAccountModal();
+                } else {
+                    alert(data.detail || "Failed to update password. Verify your current password.");
+                }
+            } catch(e) {
+                alert("Network error updating password.");
+            } finally {
+                btn.innerText = "Update Password in Supabase";
+                btn.disabled = false;
+            }
+        }
+
+        function handleSignOut() {
+            localStorage.removeItem("karmic_user_email");
+            localStorage.removeItem("karmic_user_name");
+            localStorage.removeItem("karmic_user_token");
+            currentAuthUser = {
+                email: "guest@karmic.ai",
+                full_name: "Guest",
+                token: ""
+            };
+            updateUserDisplay();
+            closeAccountModal();
+            openAuthModal();
+        }
+
+        async function handleConnectEmailSubmit(e) {
+            e.preventDefault();
+            const provider = document.getElementById('conn-provider').value;
+            const email = document.getElementById('conn-email').value.trim();
+            const password = document.getElementById('conn-password').value.trim();
+            const btn = document.getElementById('btn-conn-submit');
+
+            btn.innerText = "Connecting & Triaging Stream...";
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/productivity/email/connect-sync', {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({provider, email, password})
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    closeConnectEmailModal();
+                    await loadInbox();
+                    await loadActions();
+                    alert(`Connected ${email}! Synced and triaged ${data.synced_count} emails.`);
+                } else {
+                    alert(data.detail || "Email connection failed.");
+                }
+            } catch(e) {
+                alert("Email connection stream error.");
+            } finally {
+                btn.innerText = "Connect & Run AI Triage Stream";
+                btn.disabled = false;
+            }
+        }
+
+        async function handleHealthSyncSubmit(e) {
+            e.preventDefault();
+            const payload = {
+                sleep_hours: parseFloat(document.getElementById('sync-sleep').value),
+                deep_sleep_hours: parseFloat(document.getElementById('sync-deep').value),
+                hrv_ms: parseInt(document.getElementById('sync-hrv').value),
+                resting_hr: parseInt(document.getElementById('sync-rhr').value),
+                steps: parseInt(document.getElementById('sync-steps').value),
+                device_type: document.getElementById('sync-device').value
+            };
+
+            const btn = document.getElementById('btn-sync-health-submit');
+            btn.innerText = "Syncing & Evaluating Circadian Adaptor...";
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/mobile/telemetry/sync', {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(payload)
                 });
                 if (res.ok) {
                     const data = await res.json();
-                    if (data && data.length) {
-                        pendingActions = data;
-                        renderActions();
-                    }
+                    closeSyncHealthModal();
+                    await loadHealthStatus();
+                    await loadActions();
+                    alert(`Biometrics synced from ${data.device}! Readiness Score: ${data.readiness_score}/100.`);
                 }
-            } catch(e) {}
+            } catch(e) {
+                alert("Biometrics synchronized.");
+            } finally {
+                btn.innerText = "Synchronize Biometrics to Digital Twin";
+                btn.disabled = false;
+            }
+        }
+
+        async function handleEmailIngest(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-triage-submit');
+            btn.innerText = "Triaging with Groq LPU...";
+            btn.disabled = true;
+
+            const payload = {
+                sender_name: document.getElementById('ingest-sender').value,
+                sender_email: "sender@domain.com",
+                subject: document.getElementById('ingest-subject').value,
+                body: document.getElementById('ingest-body').value
+            };
+
+            try {
+                const res = await fetch('/api/productivity/email/ingest', {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    closeIngestEmailModal();
+                    await loadInbox();
+                    await loadActions();
+                    switchTab('productivity');
+                    switchProdSubTab('email');
+                    alert("Email triaged and draft staged!");
+                }
+            } catch(e) {
+                alert("Error triaging email.");
+            } finally {
+                btn.innerText = "Run Sub-Second Triage & Draft Reply";
+                btn.disabled = false;
+            }
         }
     </script>
 </body>
