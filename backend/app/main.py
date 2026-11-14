@@ -333,16 +333,17 @@ async def connect_and_sync_email(payload: Dict[str, Any] = Body(...), authorizat
     imap_connected = False
 
     # Attempt live IMAP connection if App Password provided
+    imap_error_detail = None
     if app_pwd and "@" in email_addr:
         try:
             import imaplib, email as py_email
             host = "outlook.office365.com" if any(x in email_addr for x in ["hotmail", "outlook", "live"]) else ("imap.gmail.com" if "gmail" in email_addr else "imap.mail.yahoo.com")
-            mail = imaplib.IMAP4_SSL(host, 993, timeout=6)
+            mail = imaplib.IMAP4_SSL(host, 993, timeout=8)
             mail.login(email_addr, app_pwd)
             mail.select("INBOX")
             status, messages = mail.search(None, "ALL")
             if status == "OK" and messages[0]:
-                mail_ids = messages[0].split()[-3:]
+                mail_ids = messages[0].split()[-5:] # latest 5 emails
                 for m_id in mail_ids:
                     status, data = mail.fetch(m_id, "(RFC822)")
                     for part in data:
@@ -373,7 +374,15 @@ async def connect_and_sync_email(payload: Dict[str, Any] = Body(...), authorizat
                 mail.logout()
                 imap_connected = True
         except Exception as e:
-            print(f"[*] Live IMAP info: {e}")
+            imap_error_detail = str(e)
+            print(f"[*] Live IMAP auth attempted on {host}: {e}")
+
+    # If App Password was provided but login failed, return clear guidance
+    if app_pwd and not imap_connected:
+        raise HTTPException(
+            status_code=401,
+            detail=f"Live 2FA IMAP connection to {email_addr} failed: {imap_error_detail}. Please verify that a 16-character App Password was generated in your Microsoft/Google Security settings."
+        )
 
     # If IMAP credentials were not supplied or in rapid demonstration mode, generate real stream for this user
     if not imap_connected:

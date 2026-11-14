@@ -82,6 +82,10 @@
 
             <!-- Device Connection Pill & User Account Pill -->
             <div class="flex items-center space-x-2">
+                <button onclick="openDesktopCompanionModal()" class="px-2.5 py-1.5 rounded-lg bg-cyanbrand/10 hover:bg-cyanbrand/20 border border-cyanbrand/30 text-xs text-cyanbrand flex items-center gap-1.5 transition">
+                    <i data-lucide="monitor" class="w-3.5 h-3.5 text-cyanbrand"></i>
+                    <span class="hidden sm:inline">Desktop Companion (USB)</span>
+                </button>
                 <button onclick="openConnectModal()" class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-slate-300 flex items-center gap-1.5 transition">
                     <i data-lucide="smartphone" class="w-3.5 h-3.5 text-cyanbrand"></i>
                     <span class="hidden sm:inline">Connect Devices</span>
@@ -613,6 +617,50 @@
                     Connect & Run AI Triage Stream
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal: Desktop Companion & USB Bridge -->
+    <div id="modal-desktop-companion" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-2xl p-6 border border-cyanbrand/30 space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i data-lucide="monitor" class="w-4 h-4 text-cyanbrand"></i> Karmic Desktop Companion & USB Bridge
+                </h3>
+                <button onclick="closeDesktopCompanionModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="space-y-3 text-xs text-slate-300">
+                <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                            <i data-lucide="usb" class="w-4 h-4 text-cyanbrand"></i> Native USB Device Scanner Active
+                        </span>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">READY</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400">
+                        The Desktop Companion runs directly on your Windows laptop and communicates with your iPhone or Android phone plugged in via USB.
+                    </p>
+                </div>
+
+                <div class="space-y-1.5 p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+                    <div class="font-bold text-white text-[11px]">How to Launch on Your Laptop:</div>
+                    <div class="p-2 rounded bg-slate-900 font-mono text-[11px] text-cyan-300 flex items-center justify-between">
+                        <span>Double-click: <strong>Launch_Karmic_Desktop.bat</strong></span>
+                    </div>
+                    <p class="text-[10px] text-slate-400">Or execute via terminal: <code>python desktop\karmic_desktop.py</code></p>
+                </div>
+
+                <div class="p-3 rounded-xl bg-emerald-950/20 border border-emerald-800/40 text-[11px] text-emerald-300">
+                    <strong>Zero-Cloud Photo Leakage Protocol:</strong> Raw media files never leave your device. The desktop app scans file byte signatures locally and only reports clean metadata to your dashboard.
+                </div>
+            </div>
+
+            <div class="pt-2 flex justify-end">
+                <button onclick="closeDesktopCompanionModal()" class="px-4 py-2 rounded-xl bg-cyanbrand hover:bg-cyan-400 text-obsidian text-xs font-bold transition">
+                    Got It
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1343,6 +1391,13 @@
         }
         function closeAccountModal() {
             document.getElementById('modal-account').classList.add('hidden');
+        }
+
+        function openDesktopCompanionModal() {
+            document.getElementById('modal-desktop-companion').classList.remove('hidden');
+        }
+        function closeDesktopCompanionModal() {
+            document.getElementById('modal-desktop-companion').classList.add('hidden');
         }
 
         function openAuthModal() {
