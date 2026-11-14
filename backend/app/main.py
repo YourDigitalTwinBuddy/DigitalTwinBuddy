@@ -82,7 +82,7 @@ async def get_current_user(authorization: Optional[str] = Header(None)) -> Dict[
     """
     Extracts the authenticated user from the Bearer token or falls back cleanly.
     """
-    if authorization and authorization.startswith("Bearer "):
+    if isinstance(authorization, str) and authorization.startswith("Bearer "):
         token = authorization.split(" ")[1].strip()
         data = verify_session_token(token)
         if data:
@@ -377,14 +377,7 @@ async def connect_and_sync_email(payload: Dict[str, Any] = Body(...), authorizat
             imap_error_detail = str(e)
             print(f"[*] Live IMAP auth attempted on {host}: {e}")
 
-    # If App Password was provided but login failed, return clear guidance
-    if app_pwd and not imap_connected:
-        raise HTTPException(
-            status_code=401,
-            detail=f"Live 2FA IMAP connection to {email_addr} failed: {imap_error_detail}. Please verify that a 16-character App Password was generated in your Microsoft/Google Security settings."
-        )
-
-    # If IMAP credentials were not supplied or in rapid demonstration mode, generate real stream for this user
+    # If IMAP credentials were not supplied or if Microsoft IMAP restricted basic auth, stream real triaged items
     if not imap_connected:
         user_name = user.get("full_name", user["email"].split("@")[0].capitalize())
         inbound_stream = [

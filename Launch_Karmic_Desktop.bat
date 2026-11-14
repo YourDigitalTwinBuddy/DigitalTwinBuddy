@@ -6,3 +6,4 @@ echo Zero-Cloud Photo Leakage Shield Active
 echo ===================================================
 python desktop\karmic_desktop.py
 pause
+
